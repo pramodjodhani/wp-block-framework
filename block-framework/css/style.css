@@ -1,0 +1,36 @@
+.wbf-single-field label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.wbf-single-field {
+    margin-bottom: 15px;
+}
+
+.wpbf-single-field__checkbox-label {
+    margin-left: 20px;
+}
+
+/**
+ * File field 
+ */
+.wpbc-image-field__image-wrap {
+    position: relative;
+}
+
+.wpbc-image-field__image-wrap-delete {
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+}
+
+ul.wpbf-image-field {
+    margin-left: 0 !important;
+    display: grid;
+    grid-template-columns: 150px 150px 150px 150px;
+}
+
+ul.wpbf-image-field li {
+    list-style: none;
+}

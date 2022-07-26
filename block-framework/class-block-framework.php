@@ -1,6 +1,16 @@
 <?php
 
+/**
+ * WP Block Framework.
+ */
 class WP_Block_Framework {
+
+	/**
+	 * Version.
+	 *
+	 * @var string
+	 */
+	public static $version = '1.0.0';
 
 	/**
 	 * Blocks.
@@ -66,15 +76,24 @@ class WP_Block_Framework {
 	public static function enqueue_assets() {
 		$asset_file = include plugin_dir_path( __FILE__ ) . '/build/index.asset.php';
 
+		$dependencies = array_merge( $asset_file['dependencies'], array( 'wp-color-picker' ) );
+
 		wp_register_script(
-			'block-framework',
+			'block-framework-js',
 			plugins_url( 'build/index.js', __FILE__ ),
-			$asset_file['dependencies'],
+			$dependencies,
 			$asset_file['version'],
 			true
 		);
 
-		wp_enqueue_script( 'block-framework' );
+		wp_enqueue_script( 'block-framework-js' );
+
+		wp_enqueue_style(
+			'block-framework-css',
+			plugins_url( 'css/style.css', __FILE__ ),
+			array(),
+			self::$version
+		);
 	}
 }
 
