@@ -37,7 +37,7 @@ const FileField = ( props ) => {
 			>
 			<MediaUpload
 				onSelect={( media ) => {
-					// @todo Looks odd
+					// @todo Odd that its not working.
 					if ( !isMultiple ) {
 						setFiles( [] );
 					}

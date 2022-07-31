@@ -1,5 +1,4 @@
-import { ColorPicker, DateTimePicker, Button } from '@wordpress/components';
-import { FormFileUpload } from '@wordpress/components';
+import ColorField from './fields/ColorField';
 import FileField from './fields/FileField';
 
 const FieldGenerator = {
@@ -28,7 +27,6 @@ const FieldGenerator = {
 			}
 
 			props.setAttributes( { [ id ]: Array.from( new Set( currentValue ) ) } );
-			console.log( 'currentValue', id, currentValue );
 		}
 
 		const htmlId = blockProps.id + '-' + field.id;
@@ -97,7 +95,6 @@ const FieldGenerator = {
 				</>
 			case 'file':
 			case 'image':
-				// return <input key={field.id} id={htmlId} onChange={fieldEdit} data-id={field.id} value={value}></input>
 				const multiple = field.multiple ? field.multiple : false;
 				return (
 					<FileField
@@ -108,28 +105,11 @@ const FieldGenerator = {
 					/>
 				)
 			case 'color':
-				// @Todo
-				return <input
-					type='text'
-					key={field.id}
+				return <ColorField
 					value={value}
-					onChange={fieldEdit}
-					id={htmlId}
-					/>
-			case 'editor':
-				// @Todo
-				return <input
-					type='text'
 					key={field.id}
-					onChange={fieldEdit}
-					id={htmlId}
-					data-id={field.id}
-					value={value}></input>
-			/* case 'editor':
-				return <input key={field.id} onChange={fieldEdit} data-id={field.id} value={value}></input>			 */
-			
-			default: 
-				return <div key={field.id}> Default -{field.type} - {value}</div>
+					onChange={( newVal ) => setAttribute( field.id, newVal )}
+				/>
 		}
 
 	}

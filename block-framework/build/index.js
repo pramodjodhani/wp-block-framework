@@ -37,6 +37,47 @@ var SvgFile = function SvgFile(props) {
 
 /***/ }),
 
+/***/ "./src/fields/ColorField.jsx":
+/*!***********************************!*\
+  !*** ./src/fields/ColorField.jsx ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/utils.js");
+
+
+
+
+function ColorField(props) {
+  let cls = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)('wpbf-color-' + (0,_utils__WEBPACK_IMPORTED_MODULE_1__.randomString)());
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    setTimeout(() => {
+      jQuery(`.${cls.current}`).wpColorPicker();
+    });
+  }, []);
+
+  const handleChange = e => {
+    // @todo it's not working.
+    console.log(e.target.value);
+  };
+
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    type: "text",
+    className: cls.current,
+    onBlur: handleChange
+  }));
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ColorField);
+
+/***/ }),
+
 /***/ "./src/fields/FileField.jsx":
 /*!**********************************!*\
   !*** ./src/fields/FileField.jsx ***!
@@ -88,7 +129,7 @@ const FileField = props => {
 
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.MediaUploadCheck, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.MediaUpload, {
     onSelect: media => {
-      // @todo Looks odd
+      // @todo Odd that its not working.
       if (!isMultiple) {
         setFiles([]);
       }
@@ -146,7 +187,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _fields_FileField__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./fields/FileField */ "./src/fields/FileField.jsx");
+/* harmony import */ var _fields_ColorField__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./fields/ColorField */ "./src/fields/ColorField.jsx");
+/* harmony import */ var _fields_FileField__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./fields/FileField */ "./src/fields/FileField.jsx");
+
 
 
 
@@ -182,7 +225,6 @@ const FieldGenerator = {
       props.setAttributes({
         [id]: Array.from(new Set(currentValue))
       });
-      console.log('currentValue', id, currentValue);
     };
 
     const htmlId = blockProps.id + '-' + field.id;
@@ -270,9 +312,8 @@ const FieldGenerator = {
 
       case 'file':
       case 'image':
-        // return <input key={field.id} id={htmlId} onChange={fieldEdit} data-id={field.id} value={value}></input>
         const multiple = field.multiple ? field.multiple : false;
-        return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_fields_FileField__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_fields_FileField__WEBPACK_IMPORTED_MODULE_3__["default"], {
           multiple: multiple,
           onChange: newVal => setAttribute(field.id, newVal),
           allowedTypes: field.allowed_types,
@@ -281,12 +322,18 @@ const FieldGenerator = {
 
       case 'color':
         // @Todo
-        return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-          type: "text",
-          key: field.id,
+
+        /* return <input
+        	type='text'
+        	key={field.id}
+        	value={value}
+        	onChange={fieldEdit}
+        	id={htmlId}
+        	/> */
+        return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_fields_ColorField__WEBPACK_IMPORTED_MODULE_2__["default"], {
           value: value,
-          onChange: fieldEdit,
-          id: htmlId
+          key: field.id,
+          onChange: newVal => setAttribute(field.id, newVal)
         });
 
       case 'editor':
@@ -311,6 +358,31 @@ const FieldGenerator = {
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (FieldGenerator);
+
+/***/ }),
+
+/***/ "./src/utils.js":
+/*!**********************!*\
+  !*** ./src/utils.js ***!
+  \**********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "randomString": () => (/* binding */ randomString)
+/* harmony export */ });
+function randomString(strLength, charSet) {
+  var result = [];
+  strLength = strLength || 5;
+  charSet = charSet || 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+  while (strLength--) {
+    // (note, fixed typo)
+    result.push(charSet.charAt(Math.floor(Math.random() * charSet.length)));
+  }
+
+  return result.join('');
+}
 
 /***/ }),
 
@@ -487,10 +559,6 @@ var blockFrameworkMain = {
   edit: (props, fieldData) => {
     let ret = [];
     const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.useBlockProps)();
-    console.log('props', props);
-    (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-      jQuery('.wbf-single-field--color input').wpColorPicker();
-    }, []);
     fieldData.fields.forEach(field => {
       field.htmlId = blockProps.id + '-' + field.id;
       ret.push((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {

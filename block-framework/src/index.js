@@ -3,6 +3,11 @@ import { registerBlockType } from '@wordpress/blocks';
 import FieldGenerator from './fieldsGenerator';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 
+/**
+ * Todo:
+ * 1. Make the template work.
+ * 2. 
+ */
 
 var blockFrameworkMain = {
 	init: function () {
@@ -45,12 +50,6 @@ var blockFrameworkMain = {
 	edit: ( props, fieldData ) => {
 		let ret = [];
 		const blockProps = useBlockProps();
-
-		console.log( 'props', props );
-
-		useEffect( () => {
-			jQuery( '.wbf-single-field--color input' ).wpColorPicker();
-		}, [] );
 		
 		fieldData.fields.forEach( ( field ) => {
 			field.htmlId = blockProps.id + '-' + field.id;

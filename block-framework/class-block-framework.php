@@ -91,7 +91,7 @@ class WP_Block_Framework {
 		wp_enqueue_style(
 			'block-framework-css',
 			plugins_url( 'css/style.css', __FILE__ ),
-			array(),
+			array( 'wp-color-picker' ),
 			self::$version
 		);
 	}

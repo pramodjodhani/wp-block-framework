@@ -54,6 +54,12 @@ class BlockFrameworkExample {
 							'blue'  => 'Blue',
 						),
 					),
+
+					/*
+					 * @todo
+					 * 1. Maybe use jquery UI?
+					 * 2. Save?
+					 */
 					array(
 						'id'         => 'date',
 						'title'      => 'Date Picker',
@@ -69,6 +75,7 @@ class BlockFrameworkExample {
 						'type'        => 'password',
 						'default'     => 'Example',
 					),
+					// @todo add support for row, col.
 					array(
 						'id'          => 'textarea',
 						'title'       => 'Textarea',
@@ -90,12 +97,27 @@ class BlockFrameworkExample {
 						),
 					),
 					array(
-						'id'      => 'file',
-						'title'   => 'File',
+						'id'      => 'checkboxes',
+						'title'   => 'CHeckboxes',
 						'desc'    => 'This is a description.',
-						'type'    => 'file',
-						'default' => '',
+						'type'    => 'checkboxes',
+						'default' => 'green',
+						'choices' => array(
+							'red'   => 'Red',
+							'green' => 'Green',
+							'blue'  => 'Blue',
+						),
 					),
+					array(
+						'id'            => 'file',
+						'title'         => 'File',
+						'desc'          => 'This is a description.',
+						'type'          => 'file',
+						'default'       => '',
+						'multiple'      => true,
+						'allowed_types' => array( 'image', 'audio', 'text' ), // https://github.com/WordPress/gutenberg/blob/trunk/packages/block-editor/src/components/media-upload/README.md.
+					),
+					// @todo
 					array(
 						'id'      => 'editor',
 						'title'   => 'Editor',
@@ -103,7 +125,16 @@ class BlockFrameworkExample {
 						'type'    => 'editor',
 						'default' => '',
 					),
-				)
+					// @todo not looking great.
+					array(
+						'id'      => 'color',
+						'type'    => 'color',
+						'title'   => 'color',
+						'desc'    => 'This is a description.',
+						'default' => '#fff',
+					),
+					// @todo add toggle.
+				),
 			)
 		);
 	}
