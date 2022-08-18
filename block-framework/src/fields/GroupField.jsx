@@ -2,8 +2,6 @@ import React from 'react'
 import FieldGenerator from '../fieldsGenerator';
 import { useState, useEffect } from "@wordpress/element";
 
-// @todo call onChange on setRows - almost done.
-// @todo - bug last character is deleted on save.
 function GroupField( {field:parentField, value, onChange, blockProps} ) {
 	const [ rows, setRows ] = useState( value );
 

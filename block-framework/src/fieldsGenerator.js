@@ -84,6 +84,8 @@ const FieldGenerator = {
 					id={htmlId}
 					value={value} />
 			case 'textarea':
+				const rows = field.rows ? field.rows : '5';
+				const cols = field.cols ? field.cols : '50';
 				return <textarea
 					type='date'
 					key={field.id}
@@ -91,6 +93,8 @@ const FieldGenerator = {
 					data-id={field.id}
 					id={htmlId}
 					value={value}
+					rows={rows}
+					cols={cols}
 				>
 				</textarea>
 			case 'radio':

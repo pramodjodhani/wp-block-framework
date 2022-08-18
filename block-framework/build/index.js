@@ -104,7 +104,7 @@ __webpack_require__.r(__webpack_exports__);
  * Todo:
  * x Support non-image files
  * 2. multiple not working
- * 3. Saving not working.
+ * x Saving not working.
  */
 
 const FileField = props => {
@@ -129,7 +129,7 @@ const FileField = props => {
 
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.MediaUploadCheck, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.MediaUpload, {
     onSelect: media => {
-      // @todo Odd that its not working.
+      // @todo Odd that multiple is not working.
       if (!isMultiple) {
         setFiles([]);
       }
@@ -191,8 +191,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
- // @todo call onChange on setRows - almost done.
-// @todo - bug last character is deleted on save.
+
 
 function GroupField(_ref) {
   let {
@@ -405,13 +404,17 @@ const FieldGenerator = {
         });
 
       case 'textarea':
+        const rows = field.rows ? field.rows : '5';
+        const cols = field.cols ? field.cols : '50';
         return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("textarea", {
           type: "date",
           key: field.id,
           onChange: fieldEdit,
           "data-id": field.id,
           id: htmlId,
-          value: value
+          value: value,
+          rows: rows,
+          cols: cols
         });
 
       case 'radio':
@@ -644,7 +647,9 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Todo:
  * 1. Make the template work.
- * 2. 
+ * 2. editor field not working.
+ * 3. Color field not saving.
+ * 4. Conflict between checkbox and radio field.
  */
 
 var blockFrameworkMain = {

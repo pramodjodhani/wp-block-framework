@@ -1,4 +1,9 @@
 <?php
+/**
+ * WP Block framework main class.
+ *
+ * @package WP_Block_Framework.
+ */
 
 /**
  * WP Block Framework.
@@ -49,6 +54,9 @@ class WP_Block_Framework {
 
 	/**
 	 * Create framework.
+	 *
+	 * @param string $block_name The name of block. Example 'mycompany/my-custom-block'.
+	 * @param array  $args       Argument.
 	 *
 	 * @return void
 	 */
