@@ -55,25 +55,33 @@ var blockFrameworkMain = {
 			field.htmlId = blockProps.id + '-' + field.id;
 
 			ret.push(
-				<div className={'wbf-single-field wbf-single-field--' + field.id + ' wbf-single-field--'+field.type }>
+				<div key={ field.htmlId } className={'wbf-single-field wbf-single-field--' + field.id + ' wbf-single-field--'+field.type }>
 					<label htmlFor={field.htmlId}>{field.title}</label>
-					{FieldGenerator.singleField( field, props, blockProps )}
+					<div className="wbf-single-field__field">
+						{FieldGenerator.singleField( field, props, blockProps )}
+					</div>
 				</div>
 			);
 		} );
+
+		ret = <div className="wpbf-field">
+			{ret}
+		</div>	
 
 		return (
 			<div {...blockProps}>
 				{ret}
 				<InspectorControls>
-					{ret}
+					<div className="wpbf-field__inspector_control">
+						{ret}
+					</div>
 				</InspectorControls>
 			</div>
 		)
 	},
 
 	get_attribute_type_for_field: ( field ) => {
-		if ( [ 'checkbox', 'checkboxes', 'radio', 'file' ].includes( field.type ) ) {
+		if ( [ 'checkbox', 'checkboxes', 'radio', 'file', 'group' ].includes( field.type ) ) {
 			return 'array';
 		}
 

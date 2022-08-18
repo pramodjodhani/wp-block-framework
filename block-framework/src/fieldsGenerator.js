@@ -1,17 +1,41 @@
 import ColorField from './fields/ColorField';
 import FileField from './fields/FileField';
+import GroupField from './fields/GroupField';
 
 const FieldGenerator = {
-	singleField: function ( field, props, blockProps ) {
-
-		const fieldEdit = ( e, id ) => {
-			props.setAttributes( { [e.target.dataset.id]: e.target.value } );
-		};
-
+	
+	/**
+	 * Generate the single field.
+	 *
+	 * @param {*} field       Field data (passed from PHP).
+	 * @param {*} props       Props.
+	 * @param {*} blockProps  Block Props which is passed by Gutenberg.
+	 * @param {*} parentField The parent field data (passed from PHP).
+	 *
+	 * @returns React Component.
+	 */
+	singleField: function ( field, props, blockProps, parentField ) {
 		const setAttribute = ( key, val ) => {
-			props.setAttributes( { [key]: val } );
+			if ( parentField ) {
+				props.setAttributes( key, val, props.rowIndex );
+			} else {
+				props.setAttributes( { [ key ]: val } );
+			}
 		}
 
+		/**
+		 * Handle field edit.
+		 *
+		 * @param {event} e.
+		 */
+		const fieldEdit = ( e ) => {
+			setAttribute( e.target.dataset.id, e.target.value );
+		};
+
+		/**
+		 * Handle checkbox change.
+		 * @param {*} e 
+		 */
 		const handleCheckoxChange = ( e ) => {
 			const id = e.target.dataset.id;
 			let currentValue = jQuery.isArray( props.attributes[ id ] ) ? props.attributes[ id ] : [];
@@ -26,6 +50,7 @@ const FieldGenerator = {
 				currentValue = currentValue.filter( val => val !== e.target.value );
 			}
 
+			// @todo check if this works.
 			props.setAttributes( { [ id ]: Array.from( new Set( currentValue ) ) } );
 		}
 
@@ -33,15 +58,15 @@ const FieldGenerator = {
 		let value = props.attributes[ field.id ] ? props.attributes[ field.id ] : field.default;
 		
 		switch ( field.type ) {
-			case 'text': 
+			case 'text':
 				return <input type="text" id={htmlId} key={field.id} onChange={fieldEdit} data-id={field.id} value={value}></input>
 			case 'select':
 				return <select
-							key={field.id} onChange={fieldEdit} data-id={field.id} defaultValue={value} id={htmlId}>
-								{field.choices && Object.entries(field.choices).map( ( [text, key] ) => (
-									<option key={key} value={key}>{ text }</option>
-								) ) }
-						</select>
+					key={field.id} onChange={fieldEdit} data-id={field.id} defaultValue={value} id={htmlId}>
+					{field.choices && Object.entries( field.choices ).map( ( [ text, key ] ) => (
+						<option key={key} value={key}>{text}</option>
+					) )}
+				</select>
 			case 'date':
 				return <input
 					type='date'
@@ -57,17 +82,17 @@ const FieldGenerator = {
 					onChange={fieldEdit}
 					data-id={field.id}
 					id={htmlId}
-					value={value}/>
+					value={value} />
 			case 'textarea':
 				return <textarea
-						type='date'
-						key={field.id}
-						onChange={fieldEdit}
-						data-id={field.id}
-						id={htmlId}
-						value={value}
-						>
-						</textarea>
+					type='date'
+					key={field.id}
+					onChange={fieldEdit}
+					data-id={field.id}
+					id={htmlId}
+					value={value}
+				>
+				</textarea>
 			case 'radio':
 			case 'checkboxes':
 			case 'checkbox':
@@ -76,7 +101,7 @@ const FieldGenerator = {
 				const name = blockProps.id + '-' + field.id;
 
 				return <>
-					{field.choices && Object.entries(field.choices).map( ( [key, text] ) => (
+					{field.choices && Object.entries( field.choices ).map( ( [ key, text ] ) => (
 						<label className='wpbf-single-field__checkbox-label' key={key}>
 							<input
 								id={htmlId}
@@ -87,11 +112,11 @@ const FieldGenerator = {
 								data-text={text}
 								name={name}
 								onChange={handleCheckoxChange}
-								checked={ value.includes( key )  }
+								checked={value.includes( key )}
 							/>
 							{text}
 						</label>
-					) ) }
+					) )}
 				</>
 			case 'file':
 			case 'image':
@@ -110,9 +135,23 @@ const FieldGenerator = {
 					key={field.id}
 					onChange={( newVal ) => setAttribute( field.id, newVal )}
 				/>
-		}
-
-	}
+			case 'group':
+				if ( ! value ) {
+					value = [];
+				}
+				return <GroupField
+					field={field}
+					value={value}
+					key={field.id}
+					blockProps={blockProps} 
+					onChange={( newVal ) => {
+						console.log( 'onChange', field.id, newVal );
+						setAttribute( field.id, newVal )
+					}}
+				/>
+				
+		};
+	},	 
 }
 
 export default FieldGenerator;

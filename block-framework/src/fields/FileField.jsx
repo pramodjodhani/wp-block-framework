@@ -49,16 +49,16 @@ const FileField = ( props ) => {
 				value={ value }
 				render={( { open } ) => (
 					<>
-						<ul className='wpbf-image-field'>
+						{ (files && 0 !== files.length) && <ul className='wpbf-image-field'>
 							{files && files.map( file => {
 								return (
 									<li key={file.id}>
 										<div className="wpbc-image-field__image-wrap">
-											<div className="wpbc-image-field__image-wrap-delete" onClick={() => onDelete( file.id ) }>
+											<div className="wpbc-image-field__image-wrap-delete" onClick={() => onDelete( file.id )}>
 												<Dashicon icon="no" />
 											</div>
 											
-											{ file?.sizes?.thumbnail?
+											{file?.sizes?.thumbnail ?
 												<img className='wpbf-image-field__img' src={file.sizes.thumbnail.url} />
 												:
 												<FileIcon></FileIcon>
@@ -67,9 +67,9 @@ const FileField = ( props ) => {
 										</div>
 									</li>
 								)
-							} ) }
-						</ul>
-						<Button className='button' onClick={open}>Open Media Library</Button>
+							} )}
+						</ul>}
+						<button className='button' onClick={open}>Open Media Library</button>
 					</>
 				) }
 			/>

@@ -143,7 +143,7 @@ const FileField = props => {
       let {
         open
       } = _ref;
-      return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", {
+      return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, files && 0 !== files.length && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", {
         className: "wpbf-image-field"
       }, files && files.map(file => {
         var _file$sizes;
@@ -161,7 +161,7 @@ const FileField = props => {
           className: "wpbf-image-field__img",
           src: file.sizes.thumbnail.url
         }) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_svg_file_svg__WEBPACK_IMPORTED_MODULE_3__.ReactComponent, null)));
-      })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+      })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
         className: "button",
         onClick: open
       }, "Open Media Library"));
@@ -170,6 +170,112 @@ const FileField = props => {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (FileField);
+
+/***/ }),
+
+/***/ "./src/fields/GroupField.jsx":
+/*!***********************************!*\
+  !*** ./src/fields/GroupField.jsx ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _fieldsGenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../fieldsGenerator */ "./src/fieldsGenerator.js");
+
+
+
+ // @todo call onChange on setRows - almost done.
+// @todo - bug last character is deleted on save.
+
+function GroupField(_ref) {
+  let {
+    field: parentField,
+    value,
+    onChange,
+    blockProps
+  } = _ref;
+  const [rows, setRows] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(value);
+
+  if (!parentField.subfields) {
+    return null;
+  }
+
+  const getEmptyRow = () => {
+    const emptyRow = {};
+    parentField.subfields.forEach(field => {
+      emptyRow[field.id] = field.default ? field.default : '';
+    });
+    return emptyRow;
+  };
+
+  const addRow = () => {
+    // Set rows is local state, onChange updates the gutenberg prop (props.setAttributes)
+    setRows([...rows, getEmptyRow()]);
+    onChange([...rows, getEmptyRow()]);
+  };
+
+  const deleteRow = rowIndex => {
+    const tempRow = rows.filter((row, index) => index !== rowIndex); // Set rows is local state, onChange updates the gutenberg prop (props.setAttributes)
+
+    setRows(tempRow);
+    onChange(tempRow);
+  };
+
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (0 === rows.length) {
+      // Set rows is local state, onChange updates the gutenberg prop (props.setAttributes)
+      setRows([getEmptyRow()]);
+      onChange([getEmptyRow()]);
+    }
+  }, []);
+  const props = {
+    setAttributes: (key, val, rowIndex) => {
+      if (typeof rows[rowIndex] === 'undefined') {
+        return;
+      }
+
+      let tempRows = [...rows];
+      let tempRow = tempRows[rowIndex] ? Object.assign({}, tempRows[rowIndex]) : false;
+      tempRow[key] = val;
+      tempRows[rowIndex] = tempRow; // Set rows is local state, onChange updates the gutenberg prop (props.setAttributes)
+
+      setRows(tempRows);
+      onChange(tempRows);
+    }
+  };
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: 'wpbf-subfield ' + 'wpbf-subfield-rowcount-' + rows.length
+  }, rows.map((row, rowIndex) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "wpbf-subfield__row",
+    key: rowIndex
+  }, parentField.subfields.map(subfield => {
+    subfield.htmlId = parentField.htmlId + '-' + subfield.id;
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      key: subfield.htmlId,
+      className: 'wbf-subsingle-field wbf-subsingle-field--' + subfield.id + ' wbf-single-field--' + subfield.type
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+      htmlFor: subfield.htmlId
+    }, subfield.title), _fieldsGenerator__WEBPACK_IMPORTED_MODULE_2__["default"].singleField(subfield, { ...props,
+      attributes: row,
+      rowIndex
+    }, blockProps, parentField));
+  }), 1 !== rows.length && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    className: "wpbf-subfield__delete_btn",
+    onClick: () => deleteRow(rowIndex)
+  }, "x"))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    className: "button wpbf-subfield__add_btn",
+    onClick: addRow
+  }, "Add Row"));
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GroupField);
 
 /***/ }),
 
@@ -185,28 +291,49 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _fields_ColorField__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./fields/ColorField */ "./src/fields/ColorField.jsx");
-/* harmony import */ var _fields_FileField__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./fields/FileField */ "./src/fields/FileField.jsx");
-
+/* harmony import */ var _fields_ColorField__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./fields/ColorField */ "./src/fields/ColorField.jsx");
+/* harmony import */ var _fields_FileField__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./fields/FileField */ "./src/fields/FileField.jsx");
+/* harmony import */ var _fields_GroupField__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./fields/GroupField */ "./src/fields/GroupField.jsx");
 
 
 
 
 const FieldGenerator = {
-  singleField: function (field, props, blockProps) {
-    const fieldEdit = (e, id) => {
-      props.setAttributes({
-        [e.target.dataset.id]: e.target.value
-      });
-    };
-
+  /**
+   * Generate the single field.
+   *
+   * @param {*} field       Field data (passed from PHP).
+   * @param {*} props       Props.
+   * @param {*} blockProps  Block Props which is passed by Gutenberg.
+   * @param {*} parentField The parent field data (passed from PHP).
+   *
+   * @returns React Component.
+   */
+  singleField: function (field, props, blockProps, parentField) {
     const setAttribute = (key, val) => {
-      props.setAttributes({
-        [key]: val
-      });
+      if (parentField) {
+        props.setAttributes(key, val, props.rowIndex);
+      } else {
+        props.setAttributes({
+          [key]: val
+        });
+      }
     };
+    /**
+     * Handle field edit.
+     *
+     * @param {event} e.
+     */
+
+
+    const fieldEdit = e => {
+      setAttribute(e.target.dataset.id, e.target.value);
+    };
+    /**
+     * Handle checkbox change.
+     * @param {*} e 
+     */
+
 
     const handleCheckoxChange = e => {
       const id = e.target.dataset.id;
@@ -220,7 +347,8 @@ const FieldGenerator = {
         currentValue.push(e.target.value);
       } else {
         currentValue = currentValue.filter(val => val !== e.target.value);
-      }
+      } // @todo check if this works.
+
 
       props.setAttributes({
         [id]: Array.from(new Set(currentValue))
@@ -313,7 +441,7 @@ const FieldGenerator = {
       case 'file':
       case 'image':
         const multiple = field.multiple ? field.multiple : false;
-        return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_fields_FileField__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_fields_FileField__WEBPACK_IMPORTED_MODULE_2__["default"], {
           multiple: multiple,
           onChange: newVal => setAttribute(field.id, newVal),
           allowedTypes: field.allowed_types,
@@ -321,40 +449,30 @@ const FieldGenerator = {
         });
 
       case 'color':
-        // @Todo
-
-        /* return <input
-        	type='text'
-        	key={field.id}
-        	value={value}
-        	onChange={fieldEdit}
-        	id={htmlId}
-        	/> */
-        return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_fields_ColorField__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_fields_ColorField__WEBPACK_IMPORTED_MODULE_1__["default"], {
           value: value,
           key: field.id,
           onChange: newVal => setAttribute(field.id, newVal)
         });
 
-      case 'editor':
-        // @Todo
-        return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-          type: "text",
+      case 'group':
+        if (!value) {
+          value = [];
+        }
+
+        return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_fields_GroupField__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          field: field,
+          value: value,
           key: field.id,
-          onChange: fieldEdit,
-          id: htmlId,
-          "data-id": field.id,
-          value: value
+          blockProps: blockProps,
+          onChange: newVal => {
+            console.log('onChange', field.id, newVal);
+            setAttribute(field.id, newVal);
+          }
         });
-
-      /* case 'editor':
-      	return <input key={field.id} onChange={fieldEdit} data-id={field.id} value={value}></input>			 */
-
-      default:
-        return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-          key: field.id
-        }, " Default -", field.type, " - ", value);
     }
+
+    ;
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (FieldGenerator);
@@ -523,6 +641,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * Todo:
+ * 1. Make the template work.
+ * 2. 
+ */
+
 var blockFrameworkMain = {
   init: function () {
     if (!window.bf_blocks) {
@@ -562,15 +686,23 @@ var blockFrameworkMain = {
     fieldData.fields.forEach(field => {
       field.htmlId = blockProps.id + '-' + field.id;
       ret.push((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+        key: field.htmlId,
         className: 'wbf-single-field wbf-single-field--' + field.id + ' wbf-single-field--' + field.type
       }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
         htmlFor: field.htmlId
-      }, field.title), _fieldsGenerator__WEBPACK_IMPORTED_MODULE_2__["default"].singleField(field, props, blockProps)));
+      }, field.title), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+        className: "wbf-single-field__field"
+      }, _fieldsGenerator__WEBPACK_IMPORTED_MODULE_2__["default"].singleField(field, props, blockProps))));
     });
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", blockProps, ret, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.InspectorControls, null, ret));
+    ret = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      className: "wpbf-field"
+    }, ret);
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", blockProps, ret, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      className: "wpbf-field__inspector_control"
+    }, ret)));
   },
   get_attribute_type_for_field: field => {
-    if (['checkbox', 'checkboxes', 'radio', 'file'].includes(field.type)) {
+    if (['checkbox', 'checkboxes', 'radio', 'file', 'group'].includes(field.type)) {
       return 'array';
     }
 

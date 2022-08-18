@@ -5,12 +5,34 @@
 }
 
 .wbf-single-field {
-    margin-bottom: 15px;
+    margin-bottom: 25px;
+    display: grid;
+    grid-template-columns: 30% 70%;
 }
 
-.wpbf-single-field__checkbox-label {
-    margin-left: 20px;
+.components-panel .wbf-single-field {
+    display: block;
 }
+
+.wpbf-subfield__row {
+    border: 1px solid #999999;
+    padding: 10px;
+    position: relative;
+}
+
+.wpbf-subfield:not(.wpbf-subfield-rowcount-1) .wpbf-subfield__row:not(:first-child) {
+    border-top: 0;
+}
+
+.button.wpbf-subfield__add_btn {
+    margin-top: 20px;
+}
+
+.wbf-single-field input[type='text'],
+.wbf-single-field input[type='password'],
+.wbf-single-field input[type='date'],
+.wbf-single-field input[type='color'],
+.wbf-single-field input[type='color'],
 
 /**
  * File field 
@@ -33,4 +55,29 @@ ul.wpbf-image-field {
 
 ul.wpbf-image-field li {
     list-style: none;
+}
+
+.wpbf-field {
+    padding: 7px;
+}
+
+a.wpbf-subfield__delete_btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 25px;
+    height: 25px;
+    background: #f9f9f9;
+    text-align: center;
+    cursor: pointer;
+    color: #999;
+}
+
+a.wpbf-subfield__delete_btn:hover {
+    background: #343232;
+    color: #fff;
+}
+
+.wbf-subsingle-field {
+    margin-bottom: 20px;
 }

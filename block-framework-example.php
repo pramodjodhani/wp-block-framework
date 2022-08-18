@@ -125,13 +125,51 @@ class BlockFrameworkExample {
 						'type'    => 'editor',
 						'default' => '',
 					),
-					// @todo not looking great.
+					// @todo not looking great
+					// @todo wont save.
 					array(
 						'id'      => 'color',
 						'type'    => 'color',
 						'title'   => 'color',
 						'desc'    => 'This is a description.',
 						'default' => '#fff',
+					),
+					array(
+						'id'        => 'group-1',
+						'type'      => 'group',
+						'title'     => 'Group fields',
+						'desc'      => 'This is a description.',
+						'subfields' => array(
+							array(
+								'id'          => 'sub-text',
+								'title'       => 'Sub Text',
+								'desc'        => 'This is a description.',
+								'placeholder' => 'This is a placeholder.',
+								'type'        => 'text',
+								'default'     => 'Sub text',
+							),
+							array(
+								'id'      => 'select',
+								'title'   => 'Select',
+								'desc'    => 'This is a description.',
+								'type'    => 'select',
+								'default' => 'green',
+								'choices' => array(
+									'red'   => 'Red',
+									'green' => 'Green',
+									'blue'  => 'Blue',
+								),
+							),
+							array(
+								'id'            => 'file',
+								'title'         => 'Inner file',
+								'desc'          => 'This is a description.',
+								'type'          => 'file',
+								'default'       => '',
+								'multiple'      => true,
+								'allowed_types' => array( 'image', 'audio', 'text' ), // https://github.com/WordPress/gutenberg/blob/trunk/packages/block-editor/src/components/media-upload/README.md.
+							),
+						),
 					),
 					// @todo add toggle.
 				),
