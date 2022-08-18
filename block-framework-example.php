@@ -4,9 +4,13 @@
  * Description: An example plugin to demonstrate use of Block Framework.
  * Author: pramodjodhani
  * Author URL: https://pramodjodhani.com
+ *
+ * @package BlockFrameworkExample
  */
 
-
+/**
+ * An example class for the demonstration of Block Framework.
+ */
 class BlockFrameworkExample {
 	/**
 	 * Construct.
@@ -83,6 +87,8 @@ class BlockFrameworkExample {
 						'placeholder' => 'This is a placeholder.',
 						'type'        => 'textarea',
 						'default'     => 'This is default',
+						'rows'        => '5',
+						'cols'        => '60',
 					),
 					array(
 						'id'      => 'radio',
@@ -125,7 +131,6 @@ class BlockFrameworkExample {
 						'type'    => 'editor',
 						'default' => '',
 					),
-					// @todo not looking great
 					// @todo wont save.
 					array(
 						'id'      => 'color',
