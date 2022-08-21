@@ -52,7 +52,7 @@ const FieldGenerator = {
 				currentValue = currentValue.filter( val => val !== e.target.value );
 			}
 
-			props.setAttributes( { [ id ]: Array.from( new Set( currentValue ) ) } );
+			setAttribute( id, Array.from( new Set( currentValue ) ) );
 		}
 
 		const htmlId = blockProps.id + '-' + field.id;
@@ -106,6 +106,7 @@ const FieldGenerator = {
 				// const name = blockProps.id + '-' + field.id;
 
 				return <>
+					{'checkbox/radio: '+ JSON.stringify(value) }
 					{field.choices && Object.entries( field.choices ).map( ( [ key, text ] ) => (
 						<label className='wpbf-single-field__checkbox-label' key={key}>
 							<input

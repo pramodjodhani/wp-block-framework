@@ -151,6 +151,18 @@ class BlockFrameworkExample {
 								),
 							),
 							array(
+								'id'      => 'sub-checkbox',
+								'title'   => 'sub-checkbox',
+								'desc'    => 'This is a description.',
+								'type'    => 'radio',
+								'default' => 'green',
+								'choices' => array(
+									'red'   => 'Red',
+									'green' => 'Green',
+									'blue'  => 'Blue',
+								),
+							),
+							array(
 								'id'            => 'file',
 								'title'         => 'Inner file',
 								'desc'          => 'This is a description.',

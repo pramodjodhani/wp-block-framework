@@ -262,6 +262,7 @@ function GroupField(_ref) {
     parentField.subfields.forEach(field => {
       emptyRow[field.id] = field.default ? field.default : '';
     });
+    console.log('emptyRow', emptyRow);
     return emptyRow;
   };
 
@@ -402,9 +403,7 @@ const FieldGenerator = {
         currentValue = currentValue.filter(val => val !== e.target.value);
       }
 
-      props.setAttributes({
-        [id]: Array.from(new Set(currentValue))
-      });
+      setAttribute(id, Array.from(new Set(currentValue)));
     };
 
     const htmlId = blockProps.id + '-' + field.id;
@@ -476,7 +475,7 @@ const FieldGenerator = {
         const type = 'radio' === field.type ? 'radio' : 'checkbox';
         value = jQuery.isArray(value) ? value : []; // const name = blockProps.id + '-' + field.id;
 
-        return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, field.choices && Object.entries(field.choices).map(_ref2 => {
+        return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, 'checkbox/radio: ' + JSON.stringify(value), field.choices && Object.entries(field.choices).map(_ref2 => {
           let [key, text] = _ref2;
           return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
             className: "wpbf-single-field__checkbox-label",

@@ -14,6 +14,7 @@ function GroupField( {field:parentField, value, onChange, blockProps} ) {
 		parentField.subfields.forEach( ( field ) => {
 			emptyRow[ field.id ] = field.default ? field.default : '';
 		} );
+		console.log( 'emptyRow', emptyRow );
 		return emptyRow;
 	}
 
