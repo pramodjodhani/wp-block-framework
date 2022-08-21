@@ -141,7 +141,6 @@ const FieldGenerator = {
 					onChange={( newVal ) => setAttribute( field.id, newVal )}
 				/>
 			/* case 'editor':
-				// TODO 
 				return 'Editor field'; */
 			case 'group':
 				if ( ! value ) {

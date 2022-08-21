@@ -119,7 +119,7 @@ function EditorField(_ref) {
       });
     }, 1000);
   }, []);
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, "TODO editor field.", (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("textarea", {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("textarea", {
     className: id,
     id: id,
     cols: "30",
@@ -512,7 +512,6 @@ const FieldGenerator = {
         });
 
       /* case 'editor':
-      	// TODO 
       	return 'Editor field'; */
 
       case 'group':
@@ -787,18 +786,16 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Todo:
  * 1. Make the template work.
- * 2. editor field not working.
- * 3. Color field not saving.
  * 4. Conflict between checkbox and radio field.
  */
 
 var blockFrameworkMain = {
   init: function () {
-    if (!window.bf_blocks) {
+    if (!window.wpbf_blocks) {
       return;
     }
 
-    for (const [block_id, block_data] of Object.entries(window.bf_blocks)) {
+    for (const [block_id, block_data] of Object.entries(window.wpbf_blocks)) {
       this.register_block(block_id, block_data);
       console.log(block_id, block_data);
     }
@@ -821,8 +818,8 @@ var blockFrameworkMain = {
       category: data.category,
       attributes: attributes,
       edit: props => this.edit(props, data),
-      save: () => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, "Hola dave, ", block_id, "!") // keywords: [], todo
-
+      save: () => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, "Hola dave, ", block_id, "!"),
+      keywords: data.keywords
     });
   },
   edit: (props, fieldData) => {

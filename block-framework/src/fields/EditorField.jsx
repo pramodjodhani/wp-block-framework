@@ -8,14 +8,13 @@ function EditorField( {value, onChange, id} ) {
 		setTimeout( () => {
 			wp.editor.initialize( id, {
 				...wp.editor.getDefaultSettings(),
-				
+
 			} );
 		}, 1000 );
 	}, [] );
 
 	return (
 		<div>
-			TODO editor field.
 			<textarea className={id} id={id} cols="30" rows="10"></textarea>
 		</div>
   )

@@ -6,18 +6,16 @@ import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 /**
  * Todo:
  * 1. Make the template work.
- * 2. editor field not working.
- * 3. Color field not saving.
  * 4. Conflict between checkbox and radio field.
  */
 
 var blockFrameworkMain = {
 	init: function () {
-		if ( ! window.bf_blocks ) {
+		if ( ! window.wpbf_blocks ) {
 			return;
 		}
 
-		for ( const [block_id, block_data] of Object.entries(window.bf_blocks) ) {
+		for ( const [block_id, block_data] of Object.entries(window.wpbf_blocks) ) {
 			this.register_block( block_id, block_data );
 			console.log( block_id, block_data );
 		}
@@ -45,7 +43,7 @@ var blockFrameworkMain = {
 			attributes: attributes,
 			edit: ( props ) => this.edit( props, data ),
 			save: () => <div>Hola dave, { block_id }!</div>,
-			// keywords: [], todo
+			keywords: data.keywords,
 		} );
 	},
 

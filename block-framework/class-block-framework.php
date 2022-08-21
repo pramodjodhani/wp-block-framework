@@ -73,7 +73,7 @@ class WP_Block_Framework {
 	public function print_blocks_json() {
 		?>
 		<script>
-		var bf_blocks = <?php echo wp_json_encode( $this->blocks ); ?>;
+		var wpbf_blocks = <?php echo wp_json_encode( $this->blocks ); ?>;
 		</script>
 		<?php
 	}
