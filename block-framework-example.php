@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Block Framework example
- * Description: An example plugin to demonstrate use of Block Framework.
+ * Description: An example plugin to demonstrate the use of WP Block Framework.
  * Author: pramodjodhani
  * Author URL: https://pramodjodhani.com
  *
@@ -45,6 +45,13 @@ class BlockFrameworkExample {
 						'placeholder' => 'This is a placeholder.',
 						'type'        => 'text',
 						'default'     => 'This is the default value',
+					),
+					array(
+						'id'      => 'toggle1',
+						'type'    => 'toggle',
+						'title'   => 'Toggle',
+						'desc'    => 'Enable this legendary feature?',
+						'default' => 'true',
 					),
 					array(
 						'id'      => 'select',
@@ -173,7 +180,6 @@ class BlockFrameworkExample {
 							),
 						),
 					),
-					// @todo add toggle.
 				),
 			)
 		);

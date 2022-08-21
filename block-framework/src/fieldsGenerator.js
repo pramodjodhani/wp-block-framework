@@ -2,6 +2,8 @@ import ColorField from './fields/ColorField';
 import EditorField from './fields/EditorField';
 import FileField from './fields/FileField';
 import GroupField from './fields/GroupField';
+import { FormToggle } from '@wordpress/components';
+
 
 const FieldGenerator = {
 	
@@ -56,8 +58,8 @@ const FieldGenerator = {
 		}
 
 		const htmlId = blockProps.id + '-' + field.id;
-		let value = props.attributes[ field.id ] ? props.attributes[ field.id ] : field.default;
-		
+		let value = ( 'undefined' === typeof props.attributes[ field.id ] ) ? field.default : props.attributes[ field.id ];
+		console.log( props.attributes );
 		switch ( field.type ) {
 			case 'text':
 				return <input type="text" id={htmlId} key={field.id} onChange={fieldEdit} data-id={field.id} value={value}></input>
@@ -139,6 +141,26 @@ const FieldGenerator = {
 					value={value}
 					key={field.id}
 					onChange={( newVal ) => setAttribute( field.id, newVal )}
+				/>
+			case 'toggle':
+				
+				value = ( 'true' === value ) ? true : value;
+				value = ( 'false' === value ) ? false : value;
+
+				if ( 'undefined' === value || null === value ) {
+					value = false;
+				}
+
+				return <FormToggle
+					checked={value}
+					key={field.id}
+					onChange={( e ) => {
+						value = !value;
+						// Because of a bug in setAttribute, we cannot store 'false' value in bool
+						// So we store it in string.
+						value = true == value ? 'true' : 'false';
+						setAttribute( field.id, value );
+					}}
 				/>
 			/* case 'editor':
 				return 'Editor field'; */

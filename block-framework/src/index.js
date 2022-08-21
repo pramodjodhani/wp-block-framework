@@ -6,7 +6,6 @@ import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 /**
  * Todo:
  * 1. Make the template work.
- * 4. Conflict between checkbox and radio field.
  */
 
 var blockFrameworkMain = {

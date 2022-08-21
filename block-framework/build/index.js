@@ -346,6 +346,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _fields_EditorField__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./fields/EditorField */ "./src/fields/EditorField.jsx");
 /* harmony import */ var _fields_FileField__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./fields/FileField */ "./src/fields/FileField.jsx");
 /* harmony import */ var _fields_GroupField__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./fields/GroupField */ "./src/fields/GroupField.jsx");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__);
+
 
 
 
@@ -407,7 +410,8 @@ const FieldGenerator = {
     };
 
     const htmlId = blockProps.id + '-' + field.id;
-    let value = props.attributes[field.id] ? props.attributes[field.id] : field.default;
+    let value = 'undefined' === typeof props.attributes[field.id] ? field.default : props.attributes[field.id];
+    console.log(props.attributes);
 
     switch (field.type) {
       case 'text':
@@ -508,6 +512,26 @@ const FieldGenerator = {
           value: value,
           key: field.id,
           onChange: newVal => setAttribute(field.id, newVal)
+        });
+
+      case 'toggle':
+        value = 'true' === value ? true : value;
+        value = 'false' === value ? false : value;
+
+        if ('undefined' === value || null === value) {
+          value = false;
+        }
+
+        return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.FormToggle, {
+          checked: value,
+          key: field.id,
+          onChange: e => {
+            value = !value; // Because of a bug in setAttribute, we cannot store 'false' value in bool
+            // So we store it in string.
+
+            value = true == value ? 'true' : 'false';
+            setAttribute(field.id, value);
+          }
         });
 
       /* case 'editor':
@@ -785,7 +809,6 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Todo:
  * 1. Make the template work.
- * 4. Conflict between checkbox and radio field.
  */
 
 var blockFrameworkMain = {
