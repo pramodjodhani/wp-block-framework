@@ -82,6 +82,10 @@ class WP_Block_Framework {
 	 * Enqueue assets.
 	 */
 	public static function enqueue_assets() {
+		if ( ! self::is_gutenberg_screen() ) {
+			return;
+		}
+
 		$asset_file = include plugin_dir_path( __FILE__ ) . '/build/index.asset.php';
 
 		$dependencies = array_merge( $asset_file['dependencies'], array( 'wp-color-picker' ) );
@@ -94,6 +98,8 @@ class WP_Block_Framework {
 			true
 		);
 
+		wp_enqueue_editor();
+
 		wp_enqueue_script( 'block-framework-js' );
 
 		wp_enqueue_style(
@@ -102,6 +108,24 @@ class WP_Block_Framework {
 			array( 'wp-color-picker' ),
 			self::$version
 		);
+	}
+
+	/**
+	 * Check if current screen is Gutenberg editor.
+	 *
+	 * @return bool
+	 */
+	public static function is_gutenberg_screen() {
+		if ( function_exists( 'is_gutenberg_page' ) && is_gutenberg_page() ) {
+			return true;
+		}
+
+		$current_screen = get_current_screen();
+		if ( method_exists( $current_screen, 'is_block_editor' ) && $current_screen->is_block_editor() ) {
+			return true;
+		}
+
+		return false;
 	}
 }
 

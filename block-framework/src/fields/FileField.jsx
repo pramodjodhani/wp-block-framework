@@ -5,9 +5,7 @@ import { ReactComponent as FileIcon } from "../../svg/file.svg";
 
 /**
  * Todo:
- * x Support non-image files
  * 2. multiple not working
- * x Saving not working.
  */
 
 const FileField = ( props ) => {

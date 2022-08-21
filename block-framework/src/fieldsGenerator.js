@@ -1,4 +1,5 @@
 import ColorField from './fields/ColorField';
+import EditorField from './fields/EditorField';
 import FileField from './fields/FileField';
 import GroupField from './fields/GroupField';
 
@@ -139,6 +140,9 @@ const FieldGenerator = {
 					key={field.id}
 					onChange={( newVal ) => setAttribute( field.id, newVal )}
 				/>
+			/* case 'editor':
+				// TODO 
+				return 'Editor field'; */
 			case 'group':
 				if ( ! value ) {
 					value = [];
@@ -149,7 +153,6 @@ const FieldGenerator = {
 					key={field.id}
 					blockProps={blockProps} 
 					onChange={( newVal ) => {
-						console.log( 'onChange', field.id, newVal );
 						setAttribute( field.id, newVal )
 					}}
 				/>

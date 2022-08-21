@@ -1,29 +1,30 @@
-import { useEffect, useRef} from "@wordpress/element";
+import { useEffect, useRef, useState, useCallback} from "@wordpress/element";
 import { randomString } from '../utils';
+import { HexColorPicker } from "react-colorful";
+import useClickOutside from "../hooks/useClickOutside";
 
-function ColorField( props ) {
-	let cls = useRef( 'wpbf-color-' + randomString() );
-
-	useEffect( () => {
-		setTimeout(() => {
-			jQuery( `.${cls.current}` ).wpColorPicker();
-		} );
-	}, [] );
-
-	const handleChange = ( e ) => {
-		// @todo it's not working.
-		console.log( e.target.value );
-	}
-
+const ColorField = ({ value, onChange }) => {
+	const popover = useRef();
+	const [isOpen, toggle] = useState(false);
+  
+	const close = useCallback(() => toggle(false), []);
+	useClickOutside(popover, close);
+  
 	return (
-		<div>
-			<input
-				type="text"
-				className={cls.current}
-				onBlur={ handleChange }
-			/>
-		</div>
-	)
-}
-
-export default ColorField
+	  <div className="wpbf-color-picker">
+		<div
+		  className="wpbf-color-picker__swatch"
+		  style={{ backgroundColor: value }}
+		  onClick={() => toggle(true)}
+		/>
+  
+		{isOpen && (
+		  <div className="wpbf-color-picker__popover" ref={popover}>
+			<HexColorPicker color={value} onChange={onChange} />
+		  </div>
+		)}
+	  </div>
+	);
+};
+  
+export default ColorField;
