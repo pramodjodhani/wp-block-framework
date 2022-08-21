@@ -106,7 +106,6 @@ const FieldGenerator = {
 				// const name = blockProps.id + '-' + field.id;
 
 				return <>
-					{'checkbox/radio: '+ JSON.stringify(value) }
 					{field.choices && Object.entries( field.choices ).map( ( [ key, text ] ) => (
 						<label className='wpbf-single-field__checkbox-label' key={key}>
 							<input
