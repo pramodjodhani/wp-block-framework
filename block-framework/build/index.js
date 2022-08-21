@@ -388,6 +388,7 @@ const FieldGenerator = {
 
 
     const handleCheckoxChange = e => {
+      // e.preventDefault();
       const id = e.target.dataset.id;
       let currentValue = jQuery.isArray(props.attributes[id]) ? props.attributes[id] : [];
 
@@ -399,8 +400,7 @@ const FieldGenerator = {
         currentValue.push(e.target.value);
       } else {
         currentValue = currentValue.filter(val => val !== e.target.value);
-      } // @todo check if this works.
-
+      }
 
       props.setAttributes({
         [id]: Array.from(new Set(currentValue))
@@ -474,8 +474,8 @@ const FieldGenerator = {
       case 'checkboxes':
       case 'checkbox':
         const type = 'radio' === field.type ? 'radio' : 'checkbox';
-        value = jQuery.isArray(value) ? value : [];
-        const name = blockProps.id + '-' + field.id;
+        value = jQuery.isArray(value) ? value : []; // const name = blockProps.id + '-' + field.id;
+
         return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, field.choices && Object.entries(field.choices).map(_ref2 => {
           let [key, text] = _ref2;
           return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
@@ -488,7 +488,7 @@ const FieldGenerator = {
             value: key,
             "data-key": key,
             "data-text": text,
-            name: name,
+            name: field._name,
             onChange: handleCheckoxChange,
             checked: value.includes(key)
           }), text);
@@ -823,10 +823,28 @@ var blockFrameworkMain = {
     });
   },
   edit: (props, fieldData) => {
-    let ret = [];
     const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.useBlockProps)();
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", blockProps, blockFrameworkMain.get_fields_lists(fieldData, props, blockProps, false), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      className: "wpbf-field__inspector_control"
+    }, blockFrameworkMain.get_fields_lists(fieldData, props, blockProps, true))));
+  },
+  get_attribute_type_for_field: field => {
+    if (['checkbox', 'checkboxes', 'radio', 'file', 'group'].includes(field.type)) {
+      return 'array';
+    }
+
+    return 'string';
+  },
+  get_fields_lists: (fieldData, props, blockProps, isInspect) => {
+    let ret = [];
     fieldData.fields.forEach(field => {
       field.htmlId = blockProps.id + '-' + field.id;
+      field._name = blockProps.id + '-' + field.id;
+
+      if (isInspect) {
+        field._name = field._name + '2';
+      }
+
       ret.push((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
         key: field.htmlId,
         className: 'wbf-single-field wbf-single-field--' + field.id + ' wbf-single-field--' + field.type
@@ -839,16 +857,7 @@ var blockFrameworkMain = {
     ret = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "wpbf-field"
     }, ret);
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", blockProps, ret, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-      className: "wpbf-field__inspector_control"
-    }, ret)));
-  },
-  get_attribute_type_for_field: field => {
-    if (['checkbox', 'checkboxes', 'radio', 'file', 'group'].includes(field.type)) {
-      return 'array';
-    }
-
-    return 'string';
+    return ret;
   }
 };
 blockFrameworkMain.init();

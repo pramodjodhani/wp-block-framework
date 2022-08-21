@@ -38,6 +38,7 @@ const FieldGenerator = {
 		 * @param {*} e 
 		 */
 		const handleCheckoxChange = ( e ) => {
+			// e.preventDefault();
 			const id = e.target.dataset.id;
 			let currentValue = jQuery.isArray( props.attributes[ id ] ) ? props.attributes[ id ] : [];
 			
@@ -51,7 +52,6 @@ const FieldGenerator = {
 				currentValue = currentValue.filter( val => val !== e.target.value );
 			}
 
-			// @todo check if this works.
 			props.setAttributes( { [ id ]: Array.from( new Set( currentValue ) ) } );
 		}
 
@@ -103,7 +103,7 @@ const FieldGenerator = {
 			case 'checkbox':
 				const type = 'radio' === field.type ? 'radio' : 'checkbox';
 				value = jQuery.isArray( value ) ? value : [];
-				const name = blockProps.id + '-' + field.id;
+				// const name = blockProps.id + '-' + field.id;
 
 				return <>
 					{field.choices && Object.entries( field.choices ).map( ( [ key, text ] ) => (
@@ -115,7 +115,7 @@ const FieldGenerator = {
 								value={key}
 								data-key={key}
 								data-text={text}
-								name={name}
+								name={field._name}
 								onChange={handleCheckoxChange}
 								checked={value.includes( key )}
 							/>

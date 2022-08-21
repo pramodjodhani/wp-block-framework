@@ -48,11 +48,38 @@ var blockFrameworkMain = {
 	},
 
 	edit: ( props, fieldData ) => {
-		let ret = [];
 		const blockProps = useBlockProps();
-		
+
+		return (
+			<div {...blockProps}>
+				{blockFrameworkMain.get_fields_lists( fieldData, props, blockProps, false )}
+				<InspectorControls>
+					<div className="wpbf-field__inspector_control">
+						{blockFrameworkMain.get_fields_lists( fieldData, props, blockProps, true )}
+					</div>
+				</InspectorControls>
+			</div>
+		)
+	},
+
+	get_attribute_type_for_field: ( field ) => {
+		if ( [ 'checkbox', 'checkboxes', 'radio', 'file', 'group' ].includes( field.type ) ) {
+			return 'array';
+		}
+
+		return 'string';
+	},
+
+	get_fields_lists: ( fieldData, props, blockProps, isInspect ) => {
+		let ret = [];
+
 		fieldData.fields.forEach( ( field ) => {
 			field.htmlId = blockProps.id + '-' + field.id;
+
+			field._name = blockProps.id + '-' + field.id;
+			if ( isInspect ) {
+				field._name = field._name + '2';
+			}
 
 			ret.push(
 				<div key={ field.htmlId } className={'wbf-single-field wbf-single-field--' + field.id + ' wbf-single-field--'+field.type }>
@@ -66,26 +93,9 @@ var blockFrameworkMain = {
 
 		ret = <div className="wpbf-field">
 			{ret}
-		</div>	
+		</div>
 
-		return (
-			<div {...blockProps}>
-				{ret}
-				<InspectorControls>
-					<div className="wpbf-field__inspector_control">
-						{ret}
-					</div>
-				</InspectorControls>
-			</div>
-		)
-	},
-
-	get_attribute_type_for_field: ( field ) => {
-		if ( [ 'checkbox', 'checkboxes', 'radio', 'file', 'group' ].includes( field.type ) ) {
-			return 'array';
-		}
-
-		return 'string';
+		return ret;
 	}
 
 }

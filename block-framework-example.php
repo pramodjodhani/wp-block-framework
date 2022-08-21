@@ -33,7 +33,7 @@ class BlockFrameworkExample {
 		$block_factory->register_block_type(
 			'iconicwp/my-custom-block',
 			array(
-				'title'    => 'My custom block1',
+				'title'    => 'My custom block',
 				'icon'     => 'book-alt',
 				'category' => 'widgets',
 				'keywords' => array( __( 'image' ), __( 'photo' ), __( 'pics' ) ),
@@ -59,11 +59,6 @@ class BlockFrameworkExample {
 						),
 					),
 
-					/*
-					 * @todo
-					 * 1. Maybe use jquery UI?
-					 * 2. Save?
-					 */
 					array(
 						'id'         => 'date',
 						'title'      => 'Date Picker',
@@ -79,7 +74,6 @@ class BlockFrameworkExample {
 						'type'        => 'password',
 						'default'     => 'Example',
 					),
-					// @todo add support for row, col.
 					array(
 						'id'          => 'textarea',
 						'title'       => 'Textarea',
@@ -87,7 +81,7 @@ class BlockFrameworkExample {
 						'placeholder' => 'This is a placeholder.',
 						'type'        => 'textarea',
 						'default'     => 'This is default',
-						'rows'        => '5',
+						'rows'        => '10',
 						'cols'        => '60',
 					),
 					array(
@@ -123,15 +117,6 @@ class BlockFrameworkExample {
 						'multiple'      => true,
 						'allowed_types' => array( 'image', 'audio', 'text' ), // https://github.com/WordPress/gutenberg/blob/trunk/packages/block-editor/src/components/media-upload/README.md.
 					),
-					// @todo
-					array(
-						'id'      => 'editor',
-						'title'   => 'Editor',
-						'desc'    => 'This is a description.',
-						'type'    => 'editor',
-						'default' => '',
-					),
-					// @todo wont save.
 					array(
 						'id'      => 'color',
 						'type'    => 'color',
