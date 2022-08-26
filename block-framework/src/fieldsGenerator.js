@@ -162,8 +162,7 @@ const FieldGenerator = {
 						setAttribute( field.id, value );
 					}}
 				/>
-			/* case 'editor':
-				return 'Editor field'; */
+
 			case 'group':
 				if ( ! value ) {
 					value = [];
@@ -177,7 +176,6 @@ const FieldGenerator = {
 						setAttribute( field.id, newVal )
 					}}
 				/>
-				
 		};
 	},	 
 }

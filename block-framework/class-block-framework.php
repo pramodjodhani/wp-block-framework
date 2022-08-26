@@ -63,6 +63,18 @@ class WP_Block_Framework {
 	public function register_block_type( $block_name, $args ) {
 		// Todo maybe add checks.
 		$this->blocks[ $block_name ] = $args;
+
+		$attributes                                = self::get_attributes( $args );
+		$this->blocks[ $block_name ]['attributes'] = $attributes;
+
+		register_block_type(
+			$block_name,
+			array(
+				'api_version'     => 2,
+				'attributes'      => $attributes,
+				'render_callback' => array( $this, 'render_block' ),
+			)
+		);
 	}
 
 	/**
@@ -111,6 +123,31 @@ class WP_Block_Framework {
 	}
 
 	/**
+	 * Render block.
+	 *
+	 * @return string.
+	 */
+	public function render_block( $attributes, $content = '', $wp_block = false ) {
+		if ( ! isset( $this->blocks[ $wp_block->name ] ) ) {
+			return 'Something went wront. Block is not registered.';
+		}
+
+		$block_data = $this->blocks[ $wp_block->name ];
+
+		if ( ! isset( $block_data['template'] ) || empty( $block_data['template'] ) ) {
+			return '"template" parameter not provided';
+		}
+
+		if ( ! file_exists( $block_data['template'] ) ) {
+			return sprintf( 'Invalid template file: %s', $block_data['template'] );
+		}
+
+		ob_start();
+		include $block_data['template'];
+		return ob_get_clean();
+	}
+
+	/**
 	 * Check if current screen is Gutenberg editor.
 	 *
 	 * @return bool
@@ -126,6 +163,41 @@ class WP_Block_Framework {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Get attributes.
+	 *
+	 * @param array $args Argument.
+	 *
+	 * @return array Attributes.
+	 */
+	public static function get_attributes( $args ) {
+		$attributes = array();
+		foreach ( $args['fields'] as $field ) {
+			$type                       = self::get_attribute_type_for_field( $field );
+			$attributes[ $field['id'] ] = array(
+				'type'    => $type,
+				'default' => 'array' === $type ? array() : '',
+			);
+		}
+
+		return $attributes;
+	}
+
+	/**
+	 * Get attribute type for field.
+	 *
+	 * @param string $field Field.
+	 *
+	 * @return string
+	 */
+	public static function get_attribute_type_for_field( $field ) {
+		if ( in_array( $field['type'], array( 'checkbox', 'checkboxes', 'radio', 'file', 'group' ), true ) ) {
+			return 'array';
+		}
+
+		return 'string';
 	}
 }
 

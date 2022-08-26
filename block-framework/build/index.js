@@ -183,7 +183,8 @@ const FileField = props => {
       // @todo Odd that multiple is not working.
       if (!isMultiple) {
         setFiles([]);
-      }
+      } // @todo Saving all of the data is causing "414 Request-URI Too Large", maybe save only the essential data in props.
+
 
       setFiles([media]);
     },
@@ -534,9 +535,6 @@ const FieldGenerator = {
           }
         });
 
-      /* case 'editor':
-      	return 'Editor field'; */
-
       case 'group':
         if (!value) {
           value = [];
@@ -682,6 +680,16 @@ module.exports = window["wp"]["element"];
 
 /***/ }),
 
+/***/ "@wordpress/server-side-render":
+/*!******************************************!*\
+  !*** external ["wp","serverSideRender"] ***!
+  \******************************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["serverSideRender"];
+
+/***/ }),
+
 /***/ "./node_modules/react-colorful/dist/index.mjs":
 /*!****************************************************!*\
   !*** ./node_modules/react-colorful/dist/index.mjs ***!
@@ -801,6 +809,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _fieldsGenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./fieldsGenerator */ "./src/fieldsGenerator.js");
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _wordpress_server_side_render__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/server-side-render */ "@wordpress/server-side-render");
+/* harmony import */ var _wordpress_server_side_render__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_server_side_render__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__);
+
 
 
 
@@ -808,7 +821,11 @@ __webpack_require__.r(__webpack_exports__);
 
 /**
  * Todo:
- * 1. Make the template work.
+ * X Make the template work.
+ * 2. Test with multiple blocks.
+ * 3. Test a couple of real blocks
+ * 		- Team member.
+ * 		- Muliple Property listings with the repeater.
  */
 
 var blockFrameworkMain = {
@@ -819,7 +836,6 @@ var blockFrameworkMain = {
 
     for (const [block_id, block_data] of Object.entries(window.wpbf_blocks)) {
       this.register_block(block_id, block_data);
-      console.log(block_id, block_data);
     }
   },
   register_block: function (block_id, data) {
@@ -829,24 +845,31 @@ var blockFrameworkMain = {
 
     const attributes = {};
     console.log('data', data);
-    data.fields.forEach(field => {
-      attributes[field.id] = {
-        type: this.get_attribute_type_for_field(field)
-      };
-    });
+    /* data.fields.forEach( field => {
+    	attributes[ field.id ] = {
+    		type: this.get_attribute_type_for_field( field )
+    	}
+    } ); */
+
+    console.log('attributes', attributes);
     (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__.registerBlockType)(block_id, {
       title: data.title,
       icon: data.icon,
       category: data.category,
-      attributes: attributes,
-      edit: props => this.edit(props, data),
-      save: () => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, "Hola dave, ", block_id, "!"),
-      keywords: data.keywords
+      attributes: data.attributes,
+      edit: props => this.edit(block_id, props, data),
+      keywords: data.keywords // EmptyResponsePlaceholder: <h3>No result</h3>
+
     });
   },
-  edit: (props, fieldData) => {
+  edit: (block_id, props, fieldData) => {
     const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.useBlockProps)();
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", blockProps, blockFrameworkMain.get_fields_lists(fieldData, props, blockProps, false), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    console.log('get_fields_lists', blockFrameworkMain.get_fields_lists(fieldData, props, blockProps, true));
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", blockProps, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)((_wordpress_server_side_render__WEBPACK_IMPORTED_MODULE_4___default()), {
+      block: block_id,
+      attributes: { ...props.attributes
+      }
+    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "wpbf-field__inspector_control"
     }, blockFrameworkMain.get_fields_lists(fieldData, props, blockProps, true))));
   },
@@ -857,6 +880,17 @@ var blockFrameworkMain = {
 
     return 'string';
   },
+
+  /**
+   * Get JSX for all field's.
+   * 
+   * @param array fieldData Field data - passed from the PHP array.
+   * @param array props Props. 
+   * @param array blockProps Block Props - generated from useBlockProps.
+   * @param bool isInspect Is inspect?
+   *
+   * @returns array Array of JSX objects.
+   */
   get_fields_lists: (fieldData, props, blockProps, isInspect) => {
     let ret = [];
     fieldData.fields.forEach(field => {

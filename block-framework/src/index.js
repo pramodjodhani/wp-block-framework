@@ -1,11 +1,16 @@
-import { useEffect } from "@wordpress/element";
 import { registerBlockType } from '@wordpress/blocks';
 import FieldGenerator from './fieldsGenerator';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
+import ServerSideRender from '@wordpress/server-side-render';
+import { Spinner } from '@wordpress/components';
 
 /**
  * Todo:
- * 1. Make the template work.
+ * X Make the template work.
+ * 2. Test with multiple blocks.
+ * 3. Test a couple of real blocks
+ * 		- Team member.
+ * 		- Muliple Property listings with the repeater.
  */
 
 var blockFrameworkMain = {
@@ -16,7 +21,6 @@ var blockFrameworkMain = {
 
 		for ( const [block_id, block_data] of Object.entries(window.wpbf_blocks) ) {
 			this.register_block( block_id, block_data );
-			console.log( block_id, block_data );
 		}
 	},
 
@@ -27,31 +31,39 @@ var blockFrameworkMain = {
 
 		const attributes = {};
 
-		console.log( 'data',data );
+		console.log( 'data', data );
 		
-		data.fields.forEach( field => {
+		/* data.fields.forEach( field => {
 			attributes[ field.id ] = {
 				type: this.get_attribute_type_for_field( field )
 			}
-		} );
+		} ); */
 
+		console.log( 'attributes', attributes );
 		registerBlockType( block_id, {
 			title: data.title,
 			icon: data.icon,
 			category: data.category,
-			attributes: attributes,
-			edit: ( props ) => this.edit( props, data ),
-			save: () => <div>Hola dave, { block_id }!</div>,
+			attributes: data.attributes,
+			edit: ( props ) => this.edit( block_id, props, data ),
 			keywords: data.keywords,
+			// EmptyResponsePlaceholder: <h3>No result</h3>
 		} );
 	},
 
-	edit: ( props, fieldData ) => {
+	edit: ( block_id, props, fieldData ) => {
 		const blockProps = useBlockProps();
 
+		console.log( 'get_fields_lists', blockFrameworkMain.get_fields_lists( fieldData, props, blockProps, true ) )
 		return (
 			<div {...blockProps}>
-				{blockFrameworkMain.get_fields_lists( fieldData, props, blockProps, false )}
+				{/* {blockFrameworkMain.get_fields_lists( fieldData, props, blockProps, false )} */}
+				<ServerSideRender
+					block={block_id}
+					attributes={ {
+						...props.attributes
+					} }
+				/>
 				<InspectorControls>
 					<div className="wpbf-field__inspector_control">
 						{blockFrameworkMain.get_fields_lists( fieldData, props, blockProps, true )}
@@ -69,6 +81,16 @@ var blockFrameworkMain = {
 		return 'string';
 	},
 
+	/**
+	 * Get JSX for all field's.
+	 * 
+	 * @param array fieldData Field data - passed from the PHP array.
+	 * @param array props Props. 
+	 * @param array blockProps Block Props - generated from useBlockProps.
+	 * @param bool isInspect Is inspect?
+	 *
+	 * @returns array Array of JSX objects.
+	 */
 	get_fields_lists: ( fieldData, props, blockProps, isInspect ) => {
 		let ret = [];
 

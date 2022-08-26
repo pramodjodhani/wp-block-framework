@@ -39,7 +39,7 @@ const FileField = ( props ) => {
 					if ( !isMultiple ) {
 						setFiles( [] );
 					}
-
+					// @todo Saving all of the data is causing "414 Request-URI Too Large", maybe save only the essential data in props.
 					setFiles( [ media ] )
 				}}
 				allowedTypes={allowedTypes}
