@@ -36,6 +36,7 @@ class BlockFrameworkExample {
 				'title'    => 'My custom block',
 				'icon'     => 'book-alt',
 				'category' => 'widgets',
+				'template' => dirname( __FILE__ ) . '/block-template.php',
 				'keywords' => array( __( 'image' ), __( 'photo' ), __( 'pics' ) ),
 				'fields'   => array(
 					array(
