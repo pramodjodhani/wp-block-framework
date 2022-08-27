@@ -180,13 +180,17 @@ const FileField = props => {
 
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.MediaUploadCheck, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.MediaUpload, {
     onSelect: media => {
-      // @todo Odd that multiple is not working.
-      if (!isMultiple) {
-        setFiles([]);
-      } // @todo Saving all of the data is causing "414 Request-URI Too Large", maybe save only the essential data in props.
+      console.log('media', media); // @todo multiple is not working.
 
+      /* if ( !isMultiple ) {
+      	setFiles( [] );
+      } */
 
-      setFiles([media]);
+      let tempMedia = {
+        sizes: media.sizes,
+        id: media.id
+      };
+      setFiles([tempMedia]);
     },
     allowedTypes: allowedTypes,
     isMultiple: isMultiple,

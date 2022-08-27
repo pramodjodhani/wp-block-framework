@@ -35,13 +35,18 @@ const FileField = ( props ) => {
 			>
 			<MediaUpload
 				onSelect={( media ) => {
-					// @todo Odd that multiple is not working.
-					if ( !isMultiple ) {
+					console.log( 'media', media );
+					// @todo multiple is not working.
+					/* if ( !isMultiple ) {
 						setFiles( [] );
+					} */
+
+					let tempMedia = {
+						sizes: media.sizes,
+						id:  media.id,
 					}
 
-					// @todo Saving all of the data is causing "414 Request-URI Too Large", maybe save only the essential data in props.
-					setFiles( [ media ] )
+					setFiles( [ tempMedia ] )
 				}}
 				allowedTypes={allowedTypes}
 				isMultiple={isMultiple}
