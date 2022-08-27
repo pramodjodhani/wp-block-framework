@@ -465,7 +465,7 @@ const FieldGenerator = {
 
       case 'textarea':
         const rows = field.rows ? field.rows : '5';
-        const cols = field.cols ? field.cols : '50';
+        const cols = field.cols ? field.cols : '30';
         return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("textarea", {
           type: "date",
           key: field.id,

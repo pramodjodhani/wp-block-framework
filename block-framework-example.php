@@ -209,7 +209,7 @@ class BlockFrameworkExample {
 							),
 							array(
 								'id'          => 'position',
-								'type'        => 'text',
+								'type'        => 'textarea',
 								'title'       => 'Bio',
 								'desc'        => 'Position in the company',
 								'placeholder' => 'Ex. Head of marketing..',
