@@ -2,7 +2,10 @@ import { registerBlockType } from '@wordpress/blocks';
 import FieldGenerator from './fieldsGenerator';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import ServerSideRender from '@wordpress/server-side-render';
-import { Spinner } from '@wordpress/components';
+import { ToolbarButton, ToolbarGroup } from '@wordpress/components';
+import { edit, desktop  } from '@wordpress/icons';
+import { BlockControls } from '@wordpress/block-editor';
+
 
 /**
  * Main object.
@@ -35,21 +38,45 @@ var blockFrameworkMain = {
 
 	edit: ( block_id, props, fieldData ) => {
 		const blockProps = useBlockProps();
+		const [ viewMode, setViewMode ] = useState( 'preview' );
 
 		return (
 			<div {...blockProps}>
-				{/* {blockFrameworkMain.get_fields_lists( fieldData, props, blockProps, false )} */}
-				<ServerSideRender
-					block={block_id}
-					attributes={ {
-						...props.attributes
-					} }
-				/>
+				{
+					'edit' === viewMode ?
+					( blockFrameworkMain.get_fields_lists( fieldData, props, blockProps, false ) ) 
+					:
+					<ServerSideRender
+						block={block_id}
+						attributes={ {
+							...props.attributes
+						} }
+					/>
+				}
+				
 				<InspectorControls>
 					<div className="wpbf-field__inspector_control">
 						{blockFrameworkMain.get_fields_lists( fieldData, props, blockProps, true )}
 					</div>
 				</InspectorControls>
+				<BlockControls>
+					<ToolbarGroup>
+						{
+							'edit' === viewMode ?
+							<ToolbarButton
+								icon={edit}
+								label="Edit"
+								onClick={() => setViewMode( 'preview' ) }	
+							/>
+							:
+							<ToolbarButton
+								icon={desktop}
+								label="Preview"
+								onClick={() => setViewMode( 'edit' ) }	
+								/>
+						}
+					</ToolbarGroup>
+				</BlockControls>
 			</div>
 		)
 	},
