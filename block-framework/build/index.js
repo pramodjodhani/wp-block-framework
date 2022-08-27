@@ -843,28 +843,17 @@ var blockFrameworkMain = {
       data.fields = [];
     }
 
-    const attributes = {};
-    console.log('data', data);
-    /* data.fields.forEach( field => {
-    	attributes[ field.id ] = {
-    		type: this.get_attribute_type_for_field( field )
-    	}
-    } ); */
-
-    console.log('attributes', attributes);
     (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__.registerBlockType)(block_id, {
       title: data.title,
       icon: data.icon,
       category: data.category,
       attributes: data.attributes,
       edit: props => this.edit(block_id, props, data),
-      keywords: data.keywords // EmptyResponsePlaceholder: <h3>No result</h3>
-
+      keywords: data.keywords
     });
   },
   edit: (block_id, props, fieldData) => {
     const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.useBlockProps)();
-    console.log('get_fields_lists', blockFrameworkMain.get_fields_lists(fieldData, props, blockProps, true));
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", blockProps, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)((_wordpress_server_side_render__WEBPACK_IMPORTED_MODULE_4___default()), {
       block: block_id,
       attributes: { ...props.attributes
@@ -873,6 +862,14 @@ var blockFrameworkMain = {
       className: "wpbf-field__inspector_control"
     }, blockFrameworkMain.get_fields_lists(fieldData, props, blockProps, true))));
   },
+
+  /**
+   * Get attribute type for field.
+   *
+   * @param {array} field Field Data.
+   *
+   * @returns {string}
+   */
   get_attribute_type_for_field: field => {
     if (['checkbox', 'checkboxes', 'radio', 'file', 'group'].includes(field.type)) {
       return 'array';

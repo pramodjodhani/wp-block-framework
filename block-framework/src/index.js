@@ -29,17 +29,6 @@ var blockFrameworkMain = {
 			data.fields = [];
 		}
 
-		const attributes = {};
-
-		console.log( 'data', data );
-		
-		/* data.fields.forEach( field => {
-			attributes[ field.id ] = {
-				type: this.get_attribute_type_for_field( field )
-			}
-		} ); */
-
-		console.log( 'attributes', attributes );
 		registerBlockType( block_id, {
 			title: data.title,
 			icon: data.icon,
@@ -47,14 +36,12 @@ var blockFrameworkMain = {
 			attributes: data.attributes,
 			edit: ( props ) => this.edit( block_id, props, data ),
 			keywords: data.keywords,
-			// EmptyResponsePlaceholder: <h3>No result</h3>
 		} );
 	},
 
 	edit: ( block_id, props, fieldData ) => {
 		const blockProps = useBlockProps();
 
-		console.log( 'get_fields_lists', blockFrameworkMain.get_fields_lists( fieldData, props, blockProps, true ) )
 		return (
 			<div {...blockProps}>
 				{/* {blockFrameworkMain.get_fields_lists( fieldData, props, blockProps, false )} */}
@@ -73,6 +60,13 @@ var blockFrameworkMain = {
 		)
 	},
 
+	/**
+	 * Get attribute type for field.
+	 *
+	 * @param {array} field Field Data.
+	 *
+	 * @returns {string}
+	 */
 	get_attribute_type_for_field: ( field ) => {
 		if ( [ 'checkbox', 'checkboxes', 'radio', 'file', 'group' ].includes( field.type ) ) {
 			return 'array';

@@ -48,7 +48,7 @@ class WP_Block_Framework {
 	 * Constructor.
 	 */
 	public function __construct() {
-		add_action( 'enqueue_block_editor_assets', array( $this, 'print_blocks_json' ) );
+		add_action( 'wp_print_scripts', array( $this, 'print_blocks_json' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 	}
 
@@ -58,21 +58,43 @@ class WP_Block_Framework {
 	 * @param string $block_name The name of block. Example 'mycompany/my-custom-block'.
 	 * @param array  $args       Argument.
 	 *
-	 * @return void
+	 * @return WP_Block_Type|false The registered block type on success, or false on failure.
 	 */
-	public function register_block_type( $block_name, $args ) {
-		// Todo maybe add checks.
-		$this->blocks[ $block_name ] = $args;
+	public static function register_block_type( $block_name, $args ) {
+		$instance = self::get_instance();
 
-		$attributes                                = self::get_attributes( $args );
-		$this->blocks[ $block_name ]['attributes'] = $attributes;
+		if ( empty( $block_name ) || empty( $args ) ) {
+			return false;
+		}
 
-		register_block_type(
+		if ( empty( $args['fields'] ) || ! is_array( $args['fields'] ) ) {
+			return false;
+		}
+
+		foreach ( $args['fields'] as $key => $field ) {
+			if ( empty( $field['id'] ) ) {
+				_doing_it_wrong(
+					__METHOD__,
+					/* translators: %s: Block name. */
+					sprintf( __( 'WP Block Framework: <b>id</b> parameter missing for a field in block <b>%s</b>.', 'wpbf' ), esc_html( $block_name ) ),
+					false
+				);
+
+				unset( $args['fields'][ $key ] );
+			}
+		}
+
+		$instance->blocks[ $block_name ] = $args;
+
+		$attributes                                    = self::get_attributes( $args );
+		$instance->blocks[ $block_name ]['attributes'] = $attributes;
+
+		return register_block_type(
 			$block_name,
 			array(
 				'api_version'     => 2,
 				'attributes'      => $attributes,
-				'render_callback' => array( $this, 'render_block' ),
+				'render_callback' => array( $instance, 'render_block' ),
 			)
 		);
 	}
@@ -83,9 +105,21 @@ class WP_Block_Framework {
 	 * @return void
 	 */
 	public function print_blocks_json() {
+		if ( ! self::is_gutenberg_screen() ) {
+			return;
+		}
+
+		$print_block = array();
+
+		// Remove sensitive data before output.
+		foreach ( $this->blocks as $key => $block ) {
+			$print_block[ $key ] = $block;
+			unset( $print_block[ $key ]['template'] );
+		}
+
 		?>
 		<script>
-		var wpbf_blocks = <?php echo wp_json_encode( $this->blocks ); ?>;
+		var wpbf_blocks = <?php echo wp_json_encode( $print_block ); ?>;
 		</script>
 		<?php
 	}
@@ -124,6 +158,10 @@ class WP_Block_Framework {
 
 	/**
 	 * Render block.
+	 *
+	 * @param array         $attributes Attributes.
+	 * @param string        $content    Content.
+	 * @param WP_Block_Type $wp_block   WP Block.
 	 *
 	 * @return string.
 	 */

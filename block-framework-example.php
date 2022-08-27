@@ -29,8 +29,8 @@ class BlockFrameworkExample {
 	 * @return void
 	 */
 	public function register_custom_blocks() {
-		$block_factory = WP_Block_Framework::get_instance();
-		$block_factory->register_block_type(
+		// $block_factory = WP_Block_Framework::get_instance();
+		WP_Block_Framework::register_block_type(
 			'iconicwp/my-custom-block',
 			array(
 				'title'    => 'My custom block',
