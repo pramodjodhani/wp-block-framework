@@ -1,5 +1,5 @@
 import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
-import { Button, Dashicon } from '@wordpress/components';
+import { Dashicon } from '@wordpress/components';
 import { useState, useEffect } from "@wordpress/element";
 import { ReactComponent as FileIcon } from "../../svg/file.svg";
 
