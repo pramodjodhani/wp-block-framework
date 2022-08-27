@@ -63,16 +63,16 @@ var blockFrameworkMain = {
 					<ToolbarGroup>
 						{
 							'edit' === viewMode ?
-							<ToolbarButton
-								icon={edit}
-								label="Edit"
-								onClick={() => setViewMode( 'preview' ) }	
-							/>
+								<ToolbarButton
+									icon={desktop}
+									label="Preview"
+									onClick={() => setViewMode( 'preview' ) }	
+								/>
 							:
-							<ToolbarButton
-								icon={desktop}
-								label="Preview"
-								onClick={() => setViewMode( 'edit' ) }	
+								<ToolbarButton
+									icon={edit}
+									label="Edit"
+									onClick={() => setViewMode( 'edit' ) }	
 								/>
 						}
 					</ToolbarGroup>
