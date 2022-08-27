@@ -62,7 +62,7 @@ const FieldGenerator = {
 
 		switch ( field.type ) {
 			case 'text':
-				return <input type="text" id={htmlId} key={field.id} onChange={fieldEdit} data-id={field.id} value={value}></input>
+				return <input type="text" id={htmlId} key={field.id} onChange={fieldEdit} data-id={field.id} value={value} placeholder={field.placeholder}></input>
 			case 'select':
 				return <select
 					key={field.id} onChange={fieldEdit} data-id={field.id} defaultValue={value} id={htmlId}>
@@ -77,7 +77,9 @@ const FieldGenerator = {
 					onChange={fieldEdit}
 					data-id={field.id}
 					id={htmlId}
-					value={value} />
+					value={value}
+					placeholder={field.placeholder}
+				/>
 			case 'password':
 				return <input
 					type='password'
@@ -85,7 +87,9 @@ const FieldGenerator = {
 					onChange={fieldEdit}
 					data-id={field.id}
 					id={htmlId}
-					value={value} />
+					value={value}
+					placeholder={field.placeholder}
+				/>
 			case 'textarea':
 				const rows = field.rows ? field.rows : '5';
 				const cols = field.cols ? field.cols : '50';
@@ -98,6 +102,7 @@ const FieldGenerator = {
 					value={value}
 					rows={rows}
 					cols={cols}
+					placeholder={field.placeholder}
 				>
 				</textarea>
 			case 'radio':

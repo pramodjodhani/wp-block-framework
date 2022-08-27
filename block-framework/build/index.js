@@ -422,7 +422,8 @@ const FieldGenerator = {
           key: field.id,
           onChange: fieldEdit,
           "data-id": field.id,
-          value: value
+          value: value,
+          placeholder: field.placeholder
         });
 
       case 'select':
@@ -447,7 +448,8 @@ const FieldGenerator = {
           onChange: fieldEdit,
           "data-id": field.id,
           id: htmlId,
-          value: value
+          value: value,
+          placeholder: field.placeholder
         });
 
       case 'password':
@@ -457,7 +459,8 @@ const FieldGenerator = {
           onChange: fieldEdit,
           "data-id": field.id,
           id: htmlId,
-          value: value
+          value: value,
+          placeholder: field.placeholder
         });
 
       case 'textarea':
@@ -471,7 +474,8 @@ const FieldGenerator = {
           id: htmlId,
           value: value,
           rows: rows,
-          cols: cols
+          cols: cols,
+          placeholder: field.placeholder
         });
 
       case 'radio':
