@@ -154,8 +154,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /**
- * Todo:
- * 2. multiple not working
+ * File field.
  */
 
 const FileField = props => {
@@ -180,12 +179,11 @@ const FileField = props => {
 
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.MediaUploadCheck, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.MediaUpload, {
     onSelect: media => {
-      console.log('media', media); // @todo multiple is not working.
+      // @todo multiple is not working.
 
       /* if ( !isMultiple ) {
       	setFiles( [] );
       } */
-
       let tempMedia = {
         sizes: media.sizes,
         id: media.id
@@ -267,7 +265,6 @@ function GroupField(_ref) {
     parentField.subfields.forEach(field => {
       emptyRow[field.id] = field.default ? field.default : '';
     });
-    console.log('emptyRow', emptyRow);
     return emptyRow;
   };
 
@@ -416,7 +413,6 @@ const FieldGenerator = {
 
     const htmlId = blockProps.id + '-' + field.id;
     let value = 'undefined' === typeof props.attributes[field.id] ? field.default : props.attributes[field.id];
-    console.log(props.attributes);
 
     switch (field.type) {
       case 'text':
@@ -824,12 +820,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /**
- * Todo:
- * X Make the template work.
- * 2. Test with multiple blocks.
- * 3. Test a couple of real blocks
- * 		- Team member.
- * 		- Muliple Property listings with the repeater.
+ * Main object.
  */
 
 var blockFrameworkMain = {

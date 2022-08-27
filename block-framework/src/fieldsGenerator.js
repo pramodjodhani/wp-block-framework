@@ -59,7 +59,7 @@ const FieldGenerator = {
 
 		const htmlId = blockProps.id + '-' + field.id;
 		let value = ( 'undefined' === typeof props.attributes[ field.id ] ) ? field.default : props.attributes[ field.id ];
-		console.log( props.attributes );
+
 		switch ( field.type ) {
 			case 'text':
 				return <input type="text" id={htmlId} key={field.id} onChange={fieldEdit} data-id={field.id} value={value}></input>

@@ -3,11 +3,10 @@ import { Button, Dashicon } from '@wordpress/components';
 import { useState, useEffect } from "@wordpress/element";
 import { ReactComponent as FileIcon } from "../../svg/file.svg";
 
-/**
- * Todo:
- * 2. multiple not working
- */
 
+/**
+ * File field.
+ */
 const FileField = ( props ) => {
 	const isMultiple = props.multiple ? props.multiple : false; 
 	const allowedTypes = props.allowedTypes ? props.allowedTypes : ['image'];
@@ -35,7 +34,6 @@ const FileField = ( props ) => {
 			>
 			<MediaUpload
 				onSelect={( media ) => {
-					console.log( 'media', media );
 					// @todo multiple is not working.
 					/* if ( !isMultiple ) {
 						setFiles( [] );

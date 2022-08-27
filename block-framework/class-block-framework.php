@@ -195,6 +195,10 @@ class WP_Block_Framework {
 			return true;
 		}
 
+		if ( ! is_admin() ) {
+			return;
+		}
+
 		$current_screen = get_current_screen();
 		if ( method_exists( $current_screen, 'is_block_editor' ) && $current_screen->is_block_editor() ) {
 			return true;

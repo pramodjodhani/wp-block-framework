@@ -5,14 +5,8 @@ import ServerSideRender from '@wordpress/server-side-render';
 import { Spinner } from '@wordpress/components';
 
 /**
- * Todo:
- * X Make the template work.
- * 2. Test with multiple blocks.
- * 3. Test a couple of real blocks
- * 		- Team member.
- * 		- Muliple Property listings with the repeater.
+ * Main object.
  */
-
 var blockFrameworkMain = {
 	init: function () {
 		if ( ! window.wpbf_blocks ) {

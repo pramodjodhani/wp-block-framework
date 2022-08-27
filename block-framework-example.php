@@ -29,9 +29,8 @@ class BlockFrameworkExample {
 	 * @return void
 	 */
 	public function register_custom_blocks() {
-		// $block_factory = WP_Block_Framework::get_instance();
 		WP_Block_Framework::register_block_type(
-			'iconicwp/my-custom-block',
+			'wpbf-example/my-custom-block',
 			array(
 				'title'    => 'My custom block',
 				'icon'     => 'book-alt',
@@ -178,6 +177,49 @@ class BlockFrameworkExample {
 								'default'       => '',
 								'multiple'      => true,
 								'allowed_types' => array( 'image', 'audio', 'text' ), // https://github.com/WordPress/gutenberg/blob/trunk/packages/block-editor/src/components/media-upload/README.md.
+							),
+						),
+					),
+				),
+			)
+		);
+
+		WP_Block_Framework::register_block_type(
+			'wpbf-example/team-member',
+			array(
+				'title'    => 'Team member',
+				'icon'     => 'groups',
+				'category' => 'widgets',
+				'template' => dirname( __FILE__ ) . '/templates/example-template-team-members.php',
+				'keywords' => array( __( 'image' ), __( 'photo' ), __( 'pics' ) ),
+				'fields'   => array(
+					array(
+						'id'        => 'team-members',
+						'type'      => 'group',
+						'title'     => 'Team members',
+						'desc'      => 'Team members list',
+						'subfields' => array(
+							array(
+								'id'          => 'name',
+								'type'        => 'text',
+								'title'       => 'Name',
+								'desc'        => 'Team Member name',
+								'placeholder' => 'Name',
+								'default'     => 'Raj',
+							),
+							array(
+								'id'          => 'position',
+								'type'        => 'text',
+								'title'       => 'Bio',
+								'desc'        => 'Position in the company',
+								'placeholder' => 'Ex. Head of marketing..',
+								'default'     => '',
+							),
+							array(
+								'id'    => 'image',
+								'type'  => 'image',
+								'title' => 'Image',
+								'desc'  => 'A nice Headshot.',
 							),
 						),
 					),
