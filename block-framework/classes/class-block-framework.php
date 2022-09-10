@@ -67,11 +67,11 @@ class WP_Block_Framework {
 			return false;
 		}
 
-		if ( empty( $args['fields'] ) || ! is_array( $args['fields'] ) ) {
+		if ( empty( $args['wpbf']['fields'] ) || ! is_array( $args['wpbf']['fields'] ) ) {
 			return false;
 		}
 
-		foreach ( $args['fields'] as $key => $field ) {
+		foreach ( $args['wpbf']['fields'] as $key => $field ) {
 			if ( empty( $field['id'] ) ) {
 				_doing_it_wrong(
 					__METHOD__,
@@ -80,7 +80,7 @@ class WP_Block_Framework {
 					false
 				);
 
-				unset( $args['fields'][ $key ] );
+				unset( $args['wpbf']['fields'][ $key ] );
 			}
 		}
 
@@ -94,6 +94,7 @@ class WP_Block_Framework {
 			array(
 				'api_version'     => 2,
 				'attributes'      => $attributes,
+				// Todo pass other details too.
 				'render_callback' => array( $instance, 'render_block' ),
 			)
 		);
@@ -216,7 +217,7 @@ class WP_Block_Framework {
 	 */
 	public static function get_attributes( $args ) {
 		$attributes = array();
-		foreach ( $args['fields'] as $field ) {
+		foreach ( $args['wpbf']['fields'] as $field ) {
 			$type                       = self::get_attribute_type_for_field( $field );
 			$attributes[ $field['id'] ] = array(
 				'type'    => $type,
@@ -235,7 +236,7 @@ class WP_Block_Framework {
 	 * @return string
 	 */
 	public static function get_attribute_type_for_field( $field ) {
-		if ( in_array( $field['type'], array( 'checkbox', 'checkboxes', 'radio', 'file', 'group' ), true ) ) {
+		if ( in_array( $field['type'], array( 'checkbox', 'checkboxes', 'radio', 'file', 'group', 'image' ), true ) ) {
 			return 'array';
 		}
 

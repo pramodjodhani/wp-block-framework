@@ -919,6 +919,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 /**
  * Main object.
  */
@@ -934,8 +935,8 @@ var blockFrameworkMain = {
     }
   },
   register_block: function (block_id, data) {
-    if (!data.fields || !jQuery.isArray(data.fields)) {
-      data.fields = [];
+    if (!data.wpbf.fields || !jQuery.isArray(data.wpbf.fields)) {
+      data.wpbf.fields = [];
     }
 
     (0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__.registerBlockType)(block_id, {
@@ -949,7 +950,7 @@ var blockFrameworkMain = {
   },
   edit: (block_id, props, fieldData) => {
     const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.useBlockProps)();
-    const [viewMode, setViewMode] = useState('preview');
+    const [viewMode, setViewMode] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)('preview');
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", blockProps, 'edit' === viewMode ? blockFrameworkMain.get_fields_lists(fieldData, props, blockProps, false) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)((_wordpress_server_side_render__WEBPACK_IMPORTED_MODULE_4___default()), {
       block: block_id,
       attributes: { ...props.attributes
@@ -994,7 +995,7 @@ var blockFrameworkMain = {
    */
   get_fields_lists: (fieldData, props, blockProps, isInspect) => {
     let ret = [];
-    fieldData.fields.forEach(field => {
+    fieldData.wpbf.fields.forEach(field => {
       field.htmlId = blockProps.id + '-' + field.id;
       field._name = blockProps.id + '-' + field.id;
 

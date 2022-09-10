@@ -1,0 +1,16 @@
+{
+    "name": "pramodjodhani/wp-block-framework",
+    "description": "A PHP framework to create Gutenberg Blocks without JS.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Pramod Jodhani",
+            "email": "mrpramodjodhani@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {"": "classes/"}
+    }
+}
