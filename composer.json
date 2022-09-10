@@ -11,6 +11,6 @@
     ],
     "require": {},
     "autoload": {
-        "psr-4": {"": "classes/"}
+        "psr-4": {"": "block-framework/"}
     }
 }

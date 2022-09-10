@@ -1,3 +1,4 @@
 node_modules/
 block-framework/node_modules/
 /vendor/
+.vscode/
