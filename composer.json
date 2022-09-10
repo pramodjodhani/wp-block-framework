@@ -11,6 +11,6 @@
     ],
     "require": {},
     "autoload": {
-        "psr-4": {"": "block-framework/"}
+        "classmap":  ["vendor/pramodjodhani/wp-block-framework/block-framework/"]
     }
 }
