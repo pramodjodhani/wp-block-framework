@@ -35,10 +35,10 @@ class BlockFrameworkExample {
 				'title'    => 'Demo All fields',
 				'icon'     => 'admin-site',
 				'category' => 'widgets',
-				'template' => dirname( __FILE__ ) . '/block-template.php',
 				'keywords' => array( __( 'image' ), __( 'photo' ), __( 'pics' ) ),
 				'wpbf'     => array(
-					'fields' => array(
+					'template' => dirname( __FILE__ ) . '/block-template.php',
+					'fields'   => array(
 						array(
 							'id'          => 'text',
 							'title'       => 'Text',
@@ -192,10 +192,10 @@ class BlockFrameworkExample {
 				'description' => 'Team member block. Demonstrate use of the repeater/group field type.',
 				'icon'        => 'groups',
 				'category'    => 'widgets',
-				'template'    => dirname( __FILE__ ) . '/templates/team-member-group.php',
 				'keywords'    => array( __( 'team' ), __( 'member' ), __( 'crew' ) ),
 				'wpbf'        => array(
-					'fields' => array(
+					'template' => dirname( __FILE__ ) . '/templates/team-member-group.php',
+					'fields'   => array(
 						array(
 							'id'        => 'team-members',
 							'type'      => 'group',
@@ -237,10 +237,10 @@ class BlockFrameworkExample {
 				'title'    => 'Team member (Single)',
 				'icon'     => 'groups',
 				'category' => 'widgets',
-				'template' => dirname( __FILE__ ) . '/templates/team-member.php',
 				'keywords' => array( __( 'team' ), __( 'member' ), __( 'crew' ) ),
 				'wpbf'     => array(
-					'fields' => array(
+					'template' => dirname( __FILE__ ) . '/templates/team-member.php',
+					'fields'   => array(
 						array(
 							'id'          => 'name',
 							'type'        => 'text',

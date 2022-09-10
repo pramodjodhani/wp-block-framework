@@ -2,7 +2,7 @@
 # How to use
 
 ## Step 1
-Include the block framework within your plugin or theme. 
+Include the block framework within your plugin or theme.
 
 ```
 include "./block-framework/class-block-framework.php";

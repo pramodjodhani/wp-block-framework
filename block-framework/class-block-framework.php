@@ -133,7 +133,7 @@ class WP_Block_Framework {
 			return;
 		}
 
-		$asset_file = include plugin_dir_path( __FILE__ ) . '/build/index.asset.php';
+		$asset_file = include dirname( __FILE__ ) . '/build/index.asset.php';
 
 		$dependencies = array_merge( $asset_file['dependencies'], array( 'wp-color-picker' ) );
 
@@ -173,16 +173,16 @@ class WP_Block_Framework {
 
 		$block_data = $this->blocks[ $wp_block->name ];
 
-		if ( ! isset( $block_data['template'] ) || empty( $block_data['template'] ) ) {
+		if ( ! isset( $block_data['wpbf']['template'] ) || empty( $block_data['wpbf']['template'] ) ) {
 			return '"template" parameter not provided';
 		}
 
-		if ( ! file_exists( $block_data['template'] ) ) {
-			return sprintf( 'Invalid template file: %s', $block_data['template'] );
+		if ( ! file_exists( $block_data['wpbf']['template'] ) ) {
+			return sprintf( 'Invalid template file: %s', $block_data['wpbf']['template'] );
 		}
 
 		ob_start();
-		include $block_data['template'];
+		include $block_data['wpbf']['template'];
 		return ob_get_clean();
 	}
 
