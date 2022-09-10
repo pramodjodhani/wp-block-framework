@@ -5,6 +5,8 @@ import ServerSideRender from '@wordpress/server-side-render';
 import { ToolbarButton, ToolbarGroup } from '@wordpress/components';
 import { edit, desktop  } from '@wordpress/icons';
 import { BlockControls } from '@wordpress/block-editor';
+import { useState} from "@wordpress/element";
+
 
 
 /**
@@ -22,8 +24,8 @@ var blockFrameworkMain = {
 	},
 
 	register_block: function ( block_id, data ) {
-		if ( !data.fields || ! jQuery.isArray( data.fields ) ) {
-			data.fields = [];
+		if ( !data.wpbf.fields || ! jQuery.isArray( data.wpbf.fields ) ) {
+			data.wpbf.fields = [];
 		}
 
 		registerBlockType( block_id, {
@@ -109,7 +111,7 @@ var blockFrameworkMain = {
 	get_fields_lists: ( fieldData, props, blockProps, isInspect ) => {
 		let ret = [];
 
-		fieldData.fields.forEach( ( field ) => {
+		fieldData.wpbf.fields.forEach( ( field ) => {
 			field.htmlId = blockProps.id + '-' + field.id;
 
 			field._name = blockProps.id + '-' + field.id;
