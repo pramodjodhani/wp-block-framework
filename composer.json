@@ -11,6 +11,6 @@
     ],
     "require": {},
     "autoload": {
-        "classmap":  ["vendor/pramodjodhani/wp-block-framework/block-framework/"]
+        "classmap":  ["/block-framework/"]
     }
 }
