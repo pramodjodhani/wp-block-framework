@@ -1,11 +1,20 @@
 # WP Block Framework
+With WordPress Block Framework, you can create WordPress blocks only using PHP and without having to write a line of Javascript. Helpful for creating simple blocks and converting shortcodes to blocks. Think of it as CMB2 for Gutenberg blocks.
+
 # How to use
 
-## Step 1
-Include the block framework within your plugin or theme.
+## Step 1A - Installation (with composer)
 
 ```
-include "./block-framework/class-block-framework.php";
+composer require pramodjodhani/wp-block-framework
+```
+
+## Step 1B - Installation (manually)
+
+Copy this whole repository to your theme or plugin. Then include the block-framework/class-block-framework.php file.
+
+```
+include "./wp-block-framework/block-framework/class-block-framework.php";
 ```
 
 ## Step 2
@@ -23,7 +32,7 @@ WP_Block_Framework::register_block_type(
 );
 ```
 
-You only need to include `template` and `fields` argument.
+You only need to include `wpbf` parameter and `template` and `fields` argument inside it.
 
 ```
 WP_Block_Framework::register_block_type(
@@ -33,72 +42,76 @@ WP_Block_Framework::register_block_type(
 		'icon'     => 'groups',
 		'category' => 'widgets',
 		'keywords' => array( __( 'team' ), __( 'member' ), __( 'crew' ) ),
-		'template' => dirname( __FILE__ ) . '/templates/example-template-team-members.php',
-		'field'    => array(
-			array(
-				'id'        => 'member_name',
-				'type'      => 'text',
-				'title'     => 'Name',
-				'desc'      => 'Name of the Team member',
+		'wpbf'     => array(
+			'template' => dirname( __FILE__ ) . '/templates/team-member.php',
+			'fields'   => array(
+				array(
+					'id'          => 'name',
+					'type'        => 'text',
+					'title'       => 'Name',
+					'desc'        => 'Team Member name',
+					'placeholder' => 'Name',
+				),
+				array(
+					'id'          => 'position',
+					'type'        => 'textarea',
+					'title'       => 'Bio',
+					'desc'        => 'Position in the company',
+					'placeholder' => 'Ex. Head of marketing..',
+				),
+				array(
+					'id'    => 'image',
+					'type'  => 'image',
+					'title' => 'Image',
+					'desc'  => 'A nice Headshot.',
+				),
 			),
-			array(
-				'id'        => 'member_designation',
-				'type'      => 'textarea',
-				'title'     => 'Designation',
-				'desc'      => 'Designation',
-			),
-			array(
-				'id'        => 'member_photo',
-				'type'      => 'image',
-				'title'     => 'Photo',
-				'desc'      => 'Photo of the Team member',
-			),
-		)
-	)
+		),
+	),
 );
 ```
+## Step 3 Create the template
 
-## Step 3 Block is ready -- add 
+WPBF will load the `template` we mentioned in step 2 (/templates/team-member.php). Create this file within your theme/plugin. 
 
-## Step 4 Prepare your template
+The data is provided to the template in the form of the $attributes variable. $attribute is an array of associative values, and the field id can be used to retrieve the field values ex: `$attributes['name']`.
 
-The `$attributes` variable is present in the template file that you provided in the step 2. Use it to create your dynamic template.
 
 ```
 <div class="team-member-wrap">
-	<div.team-member>
+	<div class="team-member">
+		<div class="team-member__photo">
+			<?php if ( isset( $attributes['image'][0] ) ) { ?>
+			<img src="<?php echo $attributes['image'][0]['sizes']['medium']['url']; ?>" alt="Team member photo">
+			<?php } ?>
+		</div>
+		<div class="team-member__details">
+			<h2><?php echo $attributes['name']; ?></h2>
+			<small><?php echo $attributes['position']; ?></small>
+		</div>
 	</div>
 </div>
 ```
 
 That's it 🕺
 
-# Field Types
+
+
+# Supported Field Types
 - textarea
 - text
 - Password
 - date
-- Select
+- select
 - toggle
 - radio
 - checkboxes
 - file
-- file
+- image
 - color
 - group (repeater field 🔁 )
 
-# Features to complete before release
-- [x] Text
-- [x] Select
-- [x] Checkbox
-- [x] Radio
-- [x] File Upload/Image
-- [x] Toggle
-- [x] Color Picker 
-- [x] Date Picker
-- [x] Time Picker
-- [x] Editor
-- [x] Toggle between Edit View and Display View
-- [x] Repeater Field
-
 # Upcoming Features
+- Support for block.json
+- Conditional fields
+- Improve UX
