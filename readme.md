@@ -1,5 +1,5 @@
 # WP Block Framework
-With WordPress Block Framework, you can create WordPress blocks only using PHP and without having to write a line of Javascript. Helpful for creating simple blocks and converting shortcodes to blocks. Think of it as CMB2 for Gutenberg blocks.
+With WordPress Block Framework, you can create WordPress blocks only using PHP and without having to write a line of Javascript. Helpful for creating simple blocks and converting shortcodes to blocks. Think of it as pluggable version of ACF.
 
 # How to use
 
