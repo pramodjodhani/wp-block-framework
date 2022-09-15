@@ -1,6 +1,9 @@
 # WP Block Framework
 With WordPress Block Framework, you can create WordPress blocks only using PHP and without having to write a line of Javascript. Helpful for creating simple blocks and converting shortcodes to blocks. Think of it as pluggable version of ACF.
 
+This repo is actually a working plugin which demonstrates how to implement block framework in your plugins. See block-framework-example.php for details.
+
+
 # How to use
 
 ## Step 1A - Installation (with composer)
