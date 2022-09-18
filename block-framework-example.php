@@ -195,6 +195,7 @@ class BlockFrameworkExample {
 				'keywords'    => array( __( 'team' ), __( 'member' ), __( 'crew' ) ),
 				'wpbf'        => array(
 					'template' => dirname( __FILE__ ) . '/templates/team-member-group.php',
+					'mode'     => 'edit',
 					'fields'   => array(
 						array(
 							'id'        => 'team-members',
