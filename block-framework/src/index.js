@@ -40,7 +40,8 @@ var blockFrameworkMain = {
 
 	edit: ( block_id, props, fieldData ) => {
 		const blockProps = useBlockProps();
-		const [ viewMode, setViewMode ] = useState( 'preview' );
+		const mode = fieldData.wpbf.mode ? fieldData.wpbf.mode : 'edit';
+		const [ viewMode, setViewMode ] = useState( mode );
 
 		return (
 			<div {...blockProps}>

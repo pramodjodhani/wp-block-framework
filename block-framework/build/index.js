@@ -950,7 +950,8 @@ var blockFrameworkMain = {
   },
   edit: (block_id, props, fieldData) => {
     const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.useBlockProps)();
-    const [viewMode, setViewMode] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)('preview');
+    const mode = fieldData.wpbf.mode ? fieldData.wpbf.mode : 'edit';
+    const [viewMode, setViewMode] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(mode);
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", blockProps, 'edit' === viewMode ? blockFrameworkMain.get_fields_lists(fieldData, props, blockProps, false) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)((_wordpress_server_side_render__WEBPACK_IMPORTED_MODULE_4___default()), {
       block: block_id,
       attributes: { ...props.attributes
